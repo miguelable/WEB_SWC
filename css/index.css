@@ -1,0 +1,23 @@
+h1 {
+    margin: 0px;
+    font-size: 18vw;
+}
+
+h2 {
+    font-size: 4vw;
+}
+
+h4 {
+    font-size: 2vw;
+}
+
+.textInfo {
+    /* Asignamos el area que va a ocupar el texto */
+    grid-row: 1 / 4;
+    grid-column: 1 / -1;
+    /* Centramos el texto */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
