@@ -1,0 +1,56 @@
+#saveText {
+    height: 100%;
+    width: 40px;
+    margin-left: 30px;
+    mix-blend-mode: soft-light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+#saveImage {
+    height: 80%;
+    width: 80%;
+    object-fit: contain;
+}
+
+#saveText:hover {
+    background: transparent;
+    filter: invert();
+}
+
+#textContent {
+    width: 75%;
+    height: 75%;
+    border-radius: 10px;
+    background-color: white;
+    padding-inline: 40px;
+    padding-block: 40px 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* Espacio entre botones */
+    /* Alinear el texto en el centro */
+    justify-content: space-between;
+    align-items: center;
+}
+
+#textArea {
+    width: 100%;
+    height: 95%;
+    border: none;
+    font-size: 20px;
+    resize: none;
+}
+
+#textArea:focus {
+    outline: none;
+}
+
+.textSize {
+    margin: 0;
+    color: rgb(177, 177, 177);
+    font-size: 15px;
+    font-weight: 600;
+}

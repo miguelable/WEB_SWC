@@ -1,103 +1,105 @@
 const closeButton = document.querySelector(".closeButton");
-const openAppButton = document.querySelector("#barLauncher");
+const botones = document.querySelectorAll(".appButton");
+let paginasVistas = sessionStorage.getItem("visitedPages");
 
-// Obtener el array almacenado en el almacenamiento de sesión, si existe
-const visitedPages = JSON.parse(sessionStorage.getItem('visitedPages')) || [];
-
-// Función para volver a la página anterior y guardar el array de pageflow en el almacenamiento de sesión.
-function goback() {
-    visitedPages.pop();
-    if (window.location.pathname == '/html/textEditor.html') {
-        sessionStorage.setItem("isText", "false");
-        sessionStorage.removeItem("text");
-    }
-    if (window.location.pathname == '/html/imageEditor.html') {
-        sessionStorage.setItem("isImage", "false");
-        sessionStorage.removeItem("colors");
-    }
-    if (visitedPages.length > 0) {
-        window.location.href = ".." + visitedPages.slice(-1)[0];
-    } else {
-        window.location.href = "../index.html";
-    }
-    sessionStorage.setItem('visitedPages', JSON.stringify(visitedPages));
-}
-
-// Función para guardar la página visitada en el array de pageflow y redirigirnos a la página que queremos.
-function recordVisitedPage(url) {
-    let found = false;
-    for (let i = 0; i < visitedPages.length; i++) {
-        if (visitedPages[i] == url) {
-            visitedPages.splice(i, 1);
-            visitedPages.push(url);
-            found = true;
-            break;
-        }
-    }
-    if (!found) {
-        visitedPages.push(url);
-    }
-    sessionStorage.setItem('visitedPages', JSON.stringify(visitedPages));
-    window.location.href = ".." + url;
-}
-
-// Comprobamos el boton que se ha pulsado para dirigirnos a la página que queremos depues de guardar
-// la direccion en el array de pageflow.
-openAppButton.addEventListener('click', function(event) {
-    let objectPressed = event.target.id;
-    if (objectPressed == 'searchButton' || objectPressed == 'searchImage') {
-        recordVisitedPage('/html/searchFiles.html')
-    } else if (objectPressed == 'trashButton' || objectPressed == 'trashImage') {
-        recordVisitedPage('/html/trash.html')
-    } else if (objectPressed == 'textEditorButton' || objectPressed == 'textImage') {
-        recordVisitedPage('/html/textEditor.html')
-    } else if (objectPressed == 'imageEditorButton' || objectPressed == 'editImage') {
-        recordVisitedPage('/html/imageEditor.html')
-    }
-})
-
-//comprobamos si estamos en la página de inicio y damos estilo a los botones de navegador.
+let paginaActual = "";
+//funciones a ejecutar cuando estemos en alguna de las aplicaciones
 if (closeButton != null) {
-    closeButton.addEventListener('click', goback);
-    if (visitedPages.length > 0) {
-        for (let i = 0; i < visitedPages.length; i++) {
-            if (visitedPages[i] == '/html/searchFiles.html') {
-                document.getElementById('searchButton').classList.add("borderAppOpen");
-                if (window.location.pathname == '/html/searchFiles.html') {
-                    document.getElementById('searchButton').classList.add("backgroundApp");
-                }
-            } else if (visitedPages[i] == '/html/trash.html') {
-                document.getElementById('trashButton').classList.add("borderAppOpen");
-                if (window.location.pathname == '/html/trash.html') {
-                    document.getElementById('trashButton').classList.add("backgroundApp");
-                }
-            } else if (visitedPages[i] == '/html/textEditor.html') {
-                document.getElementById('textEditorButton').classList.add("borderAppOpen");
-                if (window.location.pathname == '/html/textEditor.html') {
-                    document.getElementById('textEditorButton').classList.add("backgroundApp");
-                }
-            } else if (visitedPages[i] == '/html/imageEditor.html') {
-                document.getElementById('imageEditorButton').classList.add("borderAppOpen");
-                if (window.location.pathname == '/html/imageEditor.html') {
-                    document.getElementById('imageEditorButton').classList.add("backgroundApp");
-                }
+    //sacamos el valor de la pagina actual en la que nos encontramos
+    paginaActual = document.querySelector('.appType').innerText;
+    //Añadimos lógica al boton de cerrar pestaña
+    closeButton.addEventListener('click', function() {
+        //extraemos el ultimo valor del array de ventanas abiertas
+        cerrarApp = paginasVistas.pop();
+        //Si la ventana que hemos cerrado era la últimas abierta volvemos a inicio
+        if (paginasVistas.length === 0) {
+            window.location.href = "../index.html";
+        } else { //en el caso de que no sea la ultimo nos dirigiremos a la abierta anteriormente
+            pageToGo = paginasVistas.slice(-1)[0];
+            if (pageToGo === "Search Files") {
+                window.location.href = 'searchFiles.html';
+            } else if (pageToGo === "Trash") {
+                window.location.href = 'trash.html';
+            } else if (pageToGo === "Text Editor") {
+                window.location.href = 'textEditor.html';
+            } else if (pageToGo === "Image Editor") {
+                window.location.href = 'imageEditor.html';
             }
         }
+        //actualizamos el array de ventanas abiertas
+        sessionStorage.setItem("visitedPages", JSON.stringify(paginasVistas));
+    });
+}
+
+function printBackgound(element) {
+    if (element === "Image Editor") {
+        document.getElementById('imageEditorButton').classList.add("borderAppOpen");
+        if (element == paginaActual) {
+            document.getElementById('imageEditorButton').classList.add("backgroundApp");
+        }
+    } else if (element === "Search Files") {
+        document.getElementById('searchButton').classList.add("borderAppOpen");
+        if (element == paginaActual) {
+            document.getElementById('searchButton').classList.add("backgroundApp");
+        }
+    } else if (element === "Trash") {
+        document.getElementById('trashButton').classList.add("borderAppOpen");
+        if (element == paginaActual) {
+            document.getElementById('trashButton').classList.add("backgroundApp");
+        }
+    } else if (element === "Text Editor") {
+        document.getElementById('textEditorButton').classList.add("borderAppOpen");
+        if (element == paginaActual) {
+            document.getElementById('textEditorButton').classList.add("backgroundApp");
+        }
     }
 }
 
-// Función para actualizar la fecha y hora
-function updateDateTime() {
-    // Obtener la fecha y hora actual
-    let now = new Date();
-    // Convertir la fecha y hora en una cadena de texto
-    let actualTime = now.toLocaleTimeString();
-    let actualDate = now.toLocaleDateString();
-
-    // Mostrar la fecha y hora en un elemento HTML con el ID "datetime"
-    document.getElementById("hour").innerHTML = actualTime;
-    document.getElementById("date").innerHTML = actualDate
+if (closeButton != null) {
+    if (!paginasVistas) {
+        paginasVistas = [];
+    } else {
+        paginasVistas = JSON.parse(paginasVistas);
+        for (let i = 0; i < paginasVistas.length; i++) {
+            if (paginasVistas[i] == paginaActual) {
+                paginasVistas.splice(i, 1);
+            }
+            printBackgound(paginasVistas[i]);
+        }
+    }
+    paginasVistas.push(paginaActual);
+    for (let i = 0; i < paginasVistas.length; i++) {
+        printBackgound(paginasVistas[i]);
+    }
+    sessionStorage.setItem("visitedPages", JSON.stringify(paginasVistas));
+    console.log(paginasVistas);
 }
 
-// Actualizar la fecha y hora cada segundo (1000 milisegundos)
-setInterval(updateDateTime, 1000);
+
+botones.forEach(function(buton) {
+    buton.addEventListener("click", function(event) {
+        let buttonPressed = event.target.id;
+        if (closeButton == null) {
+            if (buttonPressed == 'searchButton' || buttonPressed == 'searchImage') {
+                window.location.href = 'html/searchFiles.html';
+            } else if (buttonPressed == 'trashButton' || buttonPressed == 'trashImage') {
+                window.location.href = 'html/trash.html';
+            } else if (buttonPressed == 'textEditorButton' || buttonPressed == 'textImage') {
+                window.location.href = 'html/textEditor.html';
+            } else if (buttonPressed == 'imageEditorButton' || buttonPressed == 'editImage') {
+                window.location.href = 'html/imageEditor.html';
+            }
+        } else {
+            if (buttonPressed == 'searchButton' || buttonPressed == 'searchImage') {
+                window.location.href = 'searchFiles.html';
+            } else if (buttonPressed == 'trashButton' || buttonPressed == 'trashImage') {
+                window.location.href = 'trash.html';
+            } else if (buttonPressed == 'textEditorButton' || buttonPressed == 'textImage') {
+                window.location.href = 'textEditor.html';
+            } else if (buttonPressed == 'imageEditorButton' || buttonPressed == 'editImage') {
+                window.location.href = 'imageEditor.html';
+            }
+        }
+
+    })
+});

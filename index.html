@@ -7,9 +7,9 @@
     <meta name="description" content="New Operation System View and Applications">
     <meta name="keywords" content="HTML, CSS, JavaScript, SWC, Image Editor, Text Editor">
     <meta name="author" content="Miguel Ferrer and Luar Biurrun">
-    <link href="img/A.ico" rel="shortcut icon">
-    <link href="css/general.css" rel="stylesheet">
-    <link href="css/index.css" rel="stylesheet">
+    <link href="./img/A.ico" rel="shortcut icon">
+    <link href="./css/general.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
 </head>
 
 <body class="container">
@@ -26,23 +26,24 @@
     </div>
     <nav id="barLauncher">
         <button id="searchButton" class="appButton">
-            <img id="searchImage" src="img/View.svg" alt="View.svg">
+            <img id="searchImage" class="fitImage" src="./img/View.svg" alt="View.svg">
         </button>
         <button id="trashButton" class="appButton">
-            <img id="trashImage" src="img/Trash.svg" alt="Trash.png">
+            <img id="trashImage" class="fitImage" src="./img/Trash.svg" alt="Trash.png">
         </button>
         <button id="textEditorButton" class="appButton">
-            <img id="textImage" src="img/TXT.svg" alt="TextEditor.png">
+            <img id="textImage" class="fitImage" src="./img/TXT.svg" alt="TextEditor.png">
         </button>
         <button id="imageEditorButton" class="appButton">
-            <img id="editImage" src="img/IMG.svg" alt="ImageEditor.png">
+            <img id="editImage" class="fitImage" src="./img/IMG.svg" alt="ImageEditor.png">
         </button>
     </nav>
     <div id="hourInfo">
         <p id="hour" class="dayInfo"></p>
         <p id="date" class="dayInfo"></p>
     </div>
-    <script src="/js/pageflow.js" rel="script"></script>
+    <script src="./js/pageflow.js" rel="script"></script>
+    <script src="./js/dateHour.js" rel="script"></script>
 </body>
 
 

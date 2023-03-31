@@ -9,110 +9,13 @@
     /* Areas de la página */
     display: grid;
     grid-template-columns: 2fr 1.5fr 2fr;
-    grid-template-rows: 50px 40px auto max-content;
+    grid-template-rows: 5% 4% auto max-content;
     /* Imagen de fondo*/
-    background-image: url("/img/fondo.jpg");
+    background-image: url("../img/fondo.jpg");
     background-position: center center;
     /*Tipografía y posicionamiento de los contenidos dentro del body*/
     font-family: 'Montserrat', sans-serif;
 }
-
-.linearBackground {
-    /*Efecto gradiente en las letras*/
-    background: linear-gradient(90deg, rgb(50, 50, 50), rgb(200, 200, 200));
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    mix-blend-mode: color-burn;
-}
-
-
-/* Posicion de la cavecera de la aplicación 
-
-.headerContent {
-    grid-row: 1 / 2;
-    grid-column: 1 / -1;
-    border-radius: 20px 20px 0px 0px;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(45px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-*/
-
-
-/* Estilo del texto que indica la app donde nos encontramos 
-
-.appType {
-    margin-left: 30px;
-    font-weight: bold;
-    color: rgb(54, 54, 54);
-}
-
-.closeButton:hover {
-    background: #ffffff2d;
-    filter: invert();
-}
-
-.closeButton {
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    border: 0px;
-    margin-right: 30px;
-    background-color: transparent;
-    /*Efecto de solapamiento con el fondo
-    mix-blend-mode: soft-light;
-}
-*/
-
-
-/* Posición barra de menu de la aplicación 
-
-#menuHeader {
-    grid-row-start: 2;
-    grid-row-end: 3;
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: left;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(45px);
-}
-
-*/
-
-
-/* Posición contenido principal 
-
-#mainConent {
-    grid-row: 3 / 4;
-    grid-column: 1 / -1;
-    /* Ajustamos el contenido y lo hacemos dinámico 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-*/
-
-
-/* Posicion barra de memoria 
-
-#memoryStatus {
-    grid-row: 4 / 5;
-    grid-column: 1 / 2;
-    /* Ajustamos la barra de memoria en el centro
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Radio inferior izquierdo 
-    border-radius: 0px 0px 0px 20px;
-}
-*/
 
 
 /* Posicion de la barra de navegación */
@@ -133,15 +36,16 @@
 
 .appButton {
     /* Tamaño de los botones */
-    height: 50px;
-    width: 50px;
+    width: 10%;
+    aspect-ratio: 1;
     /* Borde */
     border: none;
-    border-radius: 1vh;
+    border-radius: 15%;
     /* Margen */
     margin: 15px 7.5px;
     /* Formato */
     mix-blend-mode: overlay;
+    background-color: #ffffff99;
 }
 
 
@@ -154,8 +58,7 @@
 
 /* Colocar las imagenes dentro de su cuadro */
 
-.appButton img,
-.closeButton img {
+.fitImage {
     height: 100%;
     width: 100%;
     object-fit: contain;
@@ -163,20 +66,19 @@
 
 
 /* Estilos de los botones pulsados y/o seleccionados 
- Estilo del borde que se ha pulsado
+ Estilo del borde que se ha pulsado*/
 
 .borderAppOpen {
-    border-bottom: 4px solid red;
+    border-bottom: 3px solid red;
 }
 
 
-/* Estilo del boton en el que nos encontramos 
+/* Estilo del boton en el que nos encontramos */
 
 .backgroundApp {
     background: #c8c8c8;
     filter: invert();
 }
-*/
 
 
 /* Posición sección hora y día */
@@ -191,41 +93,15 @@
     justify-content: right;
     align-items: center;
     /* Radio inferior derecho */
-    /* border-radius: 0px 0px 20px 0px; */
+    border-radius: 0px 0px 20px 0px;
 }
 
 
 /* Texto de día y hora */
 
 .dayInfo {
-    margin-right: 30px;
-    font-size: 18px;
+    margin-right: 4vw;
+    font-size: 1.1vw;
     color: rgb(200, 200, 200);
     mix-blend-mode: color-burn;
 }
-
-
-/* Fondo del main content 
-
-.backgroundMain {
-    background: rgba(185, 185, 185, 0.567);
-    backdrop-filter: blur(45px);
-}
-*/
-
-
-/* Fondo de la parte baja de la página 
-
-.backgroundBottom {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(45px);
-}
-
-#fileName {
-    margin-top: 10px;
-    margin-bottom: 0px;
-    color: rgb(177, 177, 177);
-    font-size: 15px;
-    font-weight: 600;
-}
-*/

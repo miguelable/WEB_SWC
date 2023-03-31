@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ArtIO</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Search Files created, open, modify or delate them">
+    <meta name="keywords" content="HTML, CSS, JavaScript, SWC, Image Editor, Text Editor">
+    <meta name="author" content="Miguel Ferrer and Luar Biurrun">
+    <link href="../img/A.ico" rel="shortcut icon">
+    <link href="../css/appsStyle.css" rel="stylesheet">
+    <link href="../css/imageEditor.css" rel="stylesheet">
+    <link href="../css/alerts.css" rel="stylesheet">
+    <link href="../css/general.css" rel="stylesheet">
+</head>
+
+<body class="container">
+    <div id="textHeader" class="headerContent">
+        <h3 id="textFileTitle" class="appType">Image Editor</h3>
+        <button id="closeSearchButton" class="closeButton">
+            <img class="fitImage" src="../img/Close.png" alt="close">
+        </button>
+    </div>
+    <div id="menuHeader">
+        <div id="paintBox" class="optionsBox">
+            <img id="paintImage" class="dimensions" src="../img/Paint.png" alt="Paint.png">
+        </div>
+        <div id="bucketBox" class="optionsBox">
+            <img id="bucketImage" class="dimensions" src="../img/Bucket.png" alt="Bucket.png">
+        </div>
+        <div id="eraseBox" class="optionsBox">
+            <img id="EraseImage" class="dimensions" src="../img/Erase.png" alt="Erase.png">
+        </div>
+        <div id="paletteImage" class="optionsBox">
+            <svg class="dimensions position" viewBox="0 0 110.000000 110.000000">
+                <g transform="translate(0.000000,110.000000) scale(0.100000,-0.100000)">
+                <path d="M430 1006 c-160 -45 -301 -191 -339 -351 -20 -84 -18 -187 5 -225 31
+                -54 65 -72 145 -79 63 -6 75 -11 99 -37 21 -24 28 -45 33 -94 8 -71 28 -113
+                70 -144 24 -18 43 -21 125 -21 83 0 107 4 167 28 135 55 227 147 282 282 25
+                62 28 82 27 175 0 92 -4 113 -29 174 -27 65 -92 158 -140 198 -41 36 -142 86
+                -193 97 -68 14 -195 13 -252 -3z m295 -91 c119 -53 210 -160 235 -276 20 -89
+                9 -205 -25 -275 -40 -81 -112 -154 -191 -195 -58 -29 -77 -34 -158 -36 -118
+                -5 -128 2 -137 97 -11 121 -72 181 -202 196 -35 4 -64 14 -78 27 -19 18 -21
+                27 -17 101 7 116 37 184 118 267 62 64 95 84 185 115 64 22 197 12 270 -21z"/>
+                <path d="M472 850 c-47 -44 -13 -120 53 -120 18 0 41 9 53 20 47 44 13 120
+                -53 120 -18 0 -41 -9 -53 -20z"/>
+                <path d="M700 778 c-43 -46 -11 -128 50 -128 17 0 38 9 50 22 43 46 11 128
+                -50 128 -17 0 -38 -9 -50 -22z"/>
+                <path d="M250 700 c-43 -43 -11 -120 50 -120 17 0 39 9 50 20 43 43 11 120
+                -50 120 -17 0 -39 -9 -50 -20z"/>
+                <path d="M772 550 c-47 -44 -13 -120 53 -120 18 0 41 9 53 20 47 44 13 120
+                -53 120 -18 0 -41 -9 -53 -20z"/>
+                <path d="M625 325 c-14 -13 -25 -36 -25 -50 0 -33 42 -75 75 -75 33 0 75 42
+                75 75 0 33 -42 75 -75 75 -14 0 -37 -11 -50 -25z"/>
+                </g> 
+            </svg>
+            <input type="color" id="paletteInput" class="dimensions position">
+        </div>
+        <div id="saveBox" class="optionsBox">
+            <img id="saveImage" class="dimensions" src="../img/Save.png" alt="Save.png">
+        </div>
+    </div>
+    <div id="mainConent" class="backgroundMain">
+        <div id="imageContent">
+            <div id="imageArea" class="boxBorder">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+            </div>
+            <div class="space">
+                <p class="textSize" id="imageName">Imagen1.img</p>
+                <p class="textSize" id="imageSize">0 bytes</p>
+            </div>
+        </div>
+    </div>
+    <div class="backgroundBottom"></div>
+    <nav id="barLauncher" class="backgroundBottom">
+        <button id="searchButton" class="appButton">
+            <img id="searchImage" class="fitImage" src="../img/View.svg" alt="View.png">
+        </button>
+        <button id="trashButton" class="appButton">
+            <img id="trashImage" class="fitImage" src="../img/Trash.svg" alt="Trash.png">
+        </button>
+        <button id="textEditorButton" class="appButton">
+            <img id="textImage" class="fitImage" src="../img/TXT.svg" alt="TextEditor.png">
+        </button>
+        <button id="imageEditorButton" class="appButton">
+            <img id="editImage" class="fitImage" src="../img/IMG.svg" alt="ImageEditor.png">
+        </button>
+    </nav>
+    <div id="hourInfo" class="backgroundBottom">
+        <p id="hour" class="dayInfo"></p>
+        <p id="date" class="dayInfo"></p>
+    </div>
+    <!-- <div class="alert">
+        <div class="alertBox">
+            <div id="headAlert">
+                <p class="nameAlert">Image Name</p>
+                <button class="closeAlert">
+                    <img src="../img/Close.png" alt="close">
+                </button>
+            </div>
+            <p id="repeatName" class="textAlert">Repeated name</p>
+            <input type="text" id="nameFile" placeholder="exampleName">
+        </div>
+    </div> -->
+    <script src="../js/alerts.js" rel="script"></script>
+    <script src="../js/imageEditor.js" rel="script"></script>
+    <script src="../js/pageflow.js" rel="script"></script>
+    <script src="../js/dateHour.js" rel="script"></script>
+</body>
+
+</html>
