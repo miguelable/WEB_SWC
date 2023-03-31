@@ -12,6 +12,7 @@
     grid-template-rows: 5% 4% auto max-content;
     /* Imagen de fondo*/
     background-image: url("../img/fondo.jpg");
+    background-size: cover;
     background-position: center center;
     /*Tipografía y posicionamiento de los contenidos dentro del body*/
     font-family: 'Montserrat', sans-serif;
@@ -36,8 +37,8 @@
 
 .appButton {
     /* Tamaño de los botones */
-    width: 10%;
-    aspect-ratio: 1;
+    width: 4vh;
+    aspect-ratio: 1/1;
     /* Borde */
     border: none;
     border-radius: 15%;
@@ -69,7 +70,7 @@
  Estilo del borde que se ha pulsado*/
 
 .borderAppOpen {
-    border-bottom: 3px solid red;
+    border-bottom: 4px solid red;
 }
 
 
@@ -101,7 +102,10 @@
 
 .dayInfo {
     margin-right: 4vw;
-    font-size: 1.1vw;
-    color: rgb(200, 200, 200);
+    font-size: 2vh;
+    color: #c8c8c8;
+}
+
+.colorDayInfo {
     mix-blend-mode: color-burn;
 }

@@ -12,6 +12,7 @@
     <link href="../css/imageEditor.css" rel="stylesheet">
     <link href="../css/alerts.css" rel="stylesheet">
     <link href="../css/general.css" rel="stylesheet">
+    <link href="../css/editorStyle.css" rel="stylesheet">
 </head>
 
 <body class="container">
@@ -21,18 +22,18 @@
             <img class="fitImage" src="../img/Close.png" alt="close">
         </button>
     </div>
-    <div id="menuHeader">
+    <div id="menuHeaderEdit">
         <div id="paintBox" class="optionsBox">
-            <img id="paintImage" class="dimensions" src="../img/Paint.png" alt="Paint.png">
+            <img id="paintImage" class="fitImage" src="../img/Paint.png" alt="Paint.png">
         </div>
         <div id="bucketBox" class="optionsBox">
-            <img id="bucketImage" class="dimensions" src="../img/Bucket.png" alt="Bucket.png">
+            <img id="bucketImage" class="fitImage" src="../img/Bucket.png" alt="Bucket.png">
         </div>
         <div id="eraseBox" class="optionsBox">
-            <img id="EraseImage" class="dimensions" src="../img/Erase.png" alt="Erase.png">
+            <img id="EraseImage" class="fitImage" src="../img/Erase.png" alt="Erase.png">
         </div>
-        <div id="paletteImage" class="optionsBox">
-            <svg class="dimensions position" viewBox="0 0 110.000000 110.000000">
+        <div id="paletteBox" class="optionsBox">
+            <svg class="fitImage position" viewBox="0 0 110.000000 110.000000">
                 <g transform="translate(0.000000,110.000000) scale(0.100000,-0.100000)">
                 <path d="M430 1006 c-160 -45 -301 -191 -339 -351 -20 -84 -18 -187 5 -225 31
                 -54 65 -72 145 -79 63 -6 75 -11 99 -37 21 -24 28 -45 33 -94 8 -71 28 -113
@@ -54,14 +55,15 @@
                 75 75 0 33 -42 75 -75 75 -14 0 -37 -11 -50 -25z"/>
                 </g> 
             </svg>
-            <input type="color" id="paletteInput" class="dimensions position">
+            <input type="color" id="paletteInput" class="fitImage position">
         </div>
         <div id="saveBox" class="optionsBox">
-            <img id="saveImage" class="dimensions" src="../img/Save.png" alt="Save.png">
+            <img id="saveImage" class="fitImage" src="../img/Save.png" alt="Save.png">
         </div>
     </div>
+
     <div id="mainConent" class="backgroundMain">
-        <div id="imageContent">
+        <div id="contentArea">
             <div id="imageArea" class="boxBorder">
                 <div class="box"></div>
                 <div class="box"></div>
@@ -128,7 +130,7 @@
                 <div class="box"></div>
                 <div class="box"></div>
             </div>
-            <div class="space">
+            <div class="dataFilesSpace">
                 <p class="textSize" id="imageName">Imagen1.img</p>
                 <p class="textSize" id="imageSize">0 bytes</p>
             </div>

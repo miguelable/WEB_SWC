@@ -1,0 +1,76 @@
+/* Este css contienen los estilos comunes a las 
+dos aplicaciones de edición de ficheros */
+
+
+/* Posición barra de menu de la aplicación */
+
+#menuHeaderEdit {
+    /* grid menu */
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column: 1 / -1;
+    /* flex content */
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    /* padding left */
+    padding-left: 50px;
+    gap: 30px;
+    /* background menu */
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(45px);
+}
+
+
+/* Estilos para el contenedor de la barra de herramientas y botones de opciones*/
+
+.optionsBox {
+    height: 90%;
+    aspect-ratio: 1/1;
+    mix-blend-mode: overlay;
+}
+
+.optionsBox:hover {
+    background: transparent;
+    filter: invert();
+}
+
+
+/* Estilos para el contenedor de la aplicación */
+
+#contentArea {
+    width: 75%;
+    height: 75%;
+    border-radius: 10px;
+    background-color: white;
+    /* padding-inline: 40px;
+    padding-block: 40px 20px; */
+    padding-inline: 5vw;
+    padding-block: 5vh 2.5vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* Espacio entre botones */
+    /* Alinear el texto en el centro */
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Estilos para los datos que aparecen de nombre y tamaño*/
+
+.dataFilesSpace {
+    width: 100%;
+    height: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.textSize {
+    margin: 0;
+    color: rgb(177, 177, 177);
+    font-size: 1.7vh;
+    font-weight: 600;
+}

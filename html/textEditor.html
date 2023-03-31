@@ -12,6 +12,7 @@
     <link href="../css/textEditor.css" rel="stylesheet">
     <link href="../css/alerts.css" rel="stylesheet">
     <link href="../css/general.css" rel="stylesheet">
+    <link href="../css/editorStyle.css" rel="stylesheet">
 </head>
 
 <body class="container">
@@ -21,16 +22,18 @@
             <img class="fitImage" src="../img/Close.png" alt="close">
         </button>
     </div>
-    <div id="menuHeader">
-        <div id="saveText" class="menuSpacing">
-            <img id="saveImage" src="../img/Save.png" alt="Save.png">
+    <div id="menuHeaderEdit">
+        <div id="saveText" class="optionsBox">
+            <img id="saveImage" class="fitImage" src="../img/Save.png" alt="Save.png">
         </div>
     </div>
     <div id="mainConent" class="backgroundMain">
-        <div id="textContent" class="sizeContent">
+        <div id="contentArea">
             <textarea id="textArea" type="text"></textarea>
-            <p class="textSize">Text1.txt</p>
-            <p class="textSize">0 bytes</p>
+            <div class="dataFilesSpace">
+                <p class="textSize" id="fileName">Text1.txt</p>
+                <p class="textSize" id="fileSize">0 bytes</p>
+            </div>
         </div>
     </div>
     <div class="backgroundBottom"></div>
