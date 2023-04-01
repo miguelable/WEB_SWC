@@ -53,6 +53,7 @@
 /* Efecto al poner el raton encima de los botones */
 
 .appButton:hover {
+    cursor: pointer;
     filter: invert();
 }
 

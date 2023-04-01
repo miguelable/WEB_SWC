@@ -8,8 +8,8 @@
     <meta name="keywords" content="HTML, CSS, JavaScript, SWC, Image Editor, Text Editor">
     <meta name="author" content="Miguel Ferrer and Luar Biurrun">
     <link href="../img/A.ico" rel="shortcut icon">
-    <link href="../css/appsStyle.css" rel="stylesheet">
-    <link href="../css/searchFiles.css" rel="stylesheet">
+    <link href="../css/AllAppsStyle.css" rel="stylesheet">
+    <link href="../css/searchAppsStyle.css" rel="stylesheet">
     <link href="../css/alerts.css" rel="stylesheet">
     <link href="../css/general.css" rel="stylesheet">
 </head>
@@ -29,115 +29,112 @@
             <p id="imageFileButton" class="menuSpacing">Image files</p>
         </div>
     </div>
-    <div id="mainConent" class="backgroundMain">
-        <div id="contentText" class="dataContainer">
-            <!-- <div id="file1Main" class="fileItem">
-                <div class="textContentDiv">
-                    <p class="textFormat">
-                        Texto que contiene el objeto, este texto puede tener el contenido que sea necesario.
-                    </p>
-                </div>
-                <img id="enterInfo1" src="../img/Info.png" alt="Info.png" class="iconFormat">
-                <h5 class="textTitle">Text.txt</h5>
-                <img src="../img/Trash.png" alt="Trash.png" class="iconFormat">
+    <div id="mainConent" class="backgroundMain dataContainer overflowStyle">
+        <div class="fileItem fileText">
+            <div class="textContentDiv overflowStyle">
+                <p class="textFormat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.
+                    Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat.
+                </p>
             </div>
-            <div id="file1Info" class="fileItem">
-                <div class="InfoContentDiv">
-                    <p class="dataContent"><strong>Name:</strong> File1</p>
-                    <p class="dataContent"><strong>Extension:</strong> txt</p>
-                    <p class="dataContent"><strong>Size:</strong> 150 bytes</p>
-                    <p class="dataContent"><strong>Date:</strong> 12:15:25 27/02/2023</p>
-                </div>
-                <img id="exitInfo1" src="../img/Close.png" alt="Info.png" class="iconFormat">
-                <h5 class="textTitle">Text.txt</h5>
-                <img src="../img/Trash.png" alt="Trash.png" class="iconFormat">
-            </div>
+            <img id="enterInfo1" src="../img/Info.png" alt="Info.png" class="iconFormat">
+            <h5 class="textTitle">Text.txt</h5>
+            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
         </div>
-        <div id="contentImage" class="dataContainer hiddenObject">
-            <div id="image1Main" class="fileItem">
-                <div class="ImageContentDiv">
-                    <div id="imageArea" class="boxBorder">
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                        <div class="box"></div>
-                    </div>
-                </div>
-                <img id="enterInfo1" src="../img/Info.png" alt="Info.png" class="iconFormat">
-                <h5 class="textTitle">Image.img</h5>
-                <img src="../img/Trash.png" alt="Trash.png" class="iconFormat">
+        <div class="fileItem fileInfo">
+            <div class="InfoContentDiv">
+                <p class="dataContent"><strong>Name:</strong> File1</p>
+                <p class="dataContent"><strong>Extension:</strong> txt</p>
+                <p class="dataContent"><strong>Size:</strong> 150 bytes</p>
+                <p class="dataContent"><strong>Date:</strong> 12:15:25 27/02/2023</p>
             </div>
-            <div id="image1Info" class="fileItem">
-                <div class="InfoContentDiv">
-                    <p class="dataContent"><strong>Name:</strong> Image</p>
-                    <p class="dataContent"><strong>Extension:</strong> img</p>
-                    <p class="dataContent"><strong>Size:</strong> 5 bytes</p>
-                    <p class="dataContent"><strong>Date:</strong> 12:15:25 27/02/2023</p>
+            <img id="exitInfo1" src="../img/Close.png" alt="Info.png" class="iconFormat">
+            <h5 class="textTitle">Text.txt</h5>
+            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
+        </div>
+        <div class="fileItem imageItem">
+            <div class="imageContentDiv centerImage">
+                <div id="imageArea" class="boxLayout">
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
                 </div>
-                <img id="exitInfo1" src="../img/Close.png" alt="Info.png" class="iconFormat">
-                <h5 class="textTitle">Image.img</h5>
-                <img src="../img/Trash.png" alt="Trash.png" class="iconFormat">
-            </div> -->
+            </div>
+            <img id="enterInfo1" src="../img/Info.png" alt="Info.png" class="iconFormat">
+            <h5 class="textTitle">Image.img</h5>
+            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
+        </div>
+        <div class="fileItem fileInfo">
+            <div class="InfoContentDiv">
+                <p class="dataContent"><strong>Name:</strong> Image</p>
+                <p class="dataContent"><strong>Extension:</strong> img</p>
+                <p class="dataContent"><strong>Size:</strong> 5 bytes</p>
+                <p class="dataContent"><strong>Date:</strong> 12:15:25 27/02/2023</p>
+            </div>
+            <img id="exitInfo1" src="../img/Close.png" alt="Info.png" class="iconFormat">
+            <h5 class="textTitle">Image.img</h5>
+            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
         </div>
     </div>
     <div id="memoryStatus" class="backgroundBottom">
@@ -160,6 +157,34 @@
     <div id="hourInfo" class="backgroundBottom">
         <p id="hour" class="dayInfo"></p>
         <p id="date" class="dayInfo"></p>
+    </div>
+    <!-- Alerta de fichero no guardado al cerrar la ventana para editar uno nuevo-->
+    <div id="noneSaveAlert" class="alert hiddenObject">
+        <div class="alertBox">
+            <p class="nameAlert alertStyle">One file is already open without beeing saved</p>
+            <div class="alertStyle">
+                <button class="confirmButtonAlert hoverGreen">
+                    <p class="nameAlert goodColor">Save and Open</p>
+                </button>
+                <button class="confirmButtonAlert hoverRed">
+                    <p class="nameAlert badColor">Don´t Save and Open</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Alerta de borrar fichero -->
+    <div id="deleteFileAlert" class="alert hiddenObject">
+        <div class="alertBox">
+            <p class="nameAlert alertStyle">Delete file</p>
+            <div class="alertStyle">
+                <button class="confirmButtonAlert hoverGreen">
+                    <p class="nameAlert goodColor">Yes</p>
+                </button>
+                <button class="confirmButtonAlert hoverRed">
+                    <p class="nameAlert badColor">No</p>
+                </button>
+            </div>
+        </div>
     </div>
     <script src="../js/alerts.js" rel="script"></script>
     <script src="../js/searchFiles.js" rel="script"></script>

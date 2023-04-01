@@ -31,6 +31,7 @@ dos aplicaciones de edición de ficheros */
 }
 
 .optionsBox:hover {
+    cursor: pointer;
     background: transparent;
     filter: invert();
 }

@@ -29,6 +29,7 @@
 /* Estilo del boton de cerrar la aplicación*/
 
 .closeButton:hover {
+    cursor: pointer;
     background: #ffffff2d;
     filter: invert();
 }
@@ -66,31 +67,10 @@
 
 .menuSpacing {
     margin: 0px;
-    font-size: 1vw;
+    font-size: 1.5vh;
     text-align: center;
     font-weight: bold;
     color: #515151;
-}
-
-
-/* Da forma al seleccionar la pestaña del tipo de fichero a buscar 
-Para search files y trash*/
-
-.shadowForm {
-    height: 100%;
-    width: 11vw;
-    border-radius: 15px 15px 0px 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-/* Por defecto el texto es el que estará seleccionado 
-Dar más opacidad al elemento seleccionado */
-
-#textShadow {
-    background-color: rgba(255, 255, 255, 0.3);
 }
 
 
@@ -113,29 +93,6 @@ Dar más opacidad al elemento seleccionado */
 .backgroundMain {
     background: rgba(255, 255, 255, 0.567);
     backdrop-filter: blur(45px);
-}
-
-
-/* Posicion barra de memoria */
-
-#memoryStatus {
-    grid-row: 4 / 5;
-    grid-column: 1 / 2;
-    /* Ajustamos la barra de memoria en el centro */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Radio inferior izquierdo */
-    border-radius: 0px 0px 0px 20px;
-}
-
-#memoryBar {
-    border-radius: 1vh;
-    border: 3px solid white;
-    background-color: white;
-    mix-blend-mode: soft-light;
-    width: 50%;
-    height: 3vh;
 }
 
 

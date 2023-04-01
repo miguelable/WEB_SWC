@@ -1,0 +1,149 @@
+/* Da forma al seleccionar la pestaña del tipo de fichero a buscar 
+Para search files y trash*/
+
+.shadowForm {
+    height: 100%;
+    width: 11vw;
+    border-radius: 15px 15px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shadowForm:hover {
+    cursor: pointer;
+}
+
+
+/* Por defecto el texto es el que estará seleccionado 
+Dar más opacidad al elemento seleccionado */
+
+#textShadow {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* Posicion barra de memoria */
+
+#memoryStatus {
+    grid-row: 4 / 5;
+    grid-column: 1 / 2;
+    /* Ajustamos la barra de memoria en el centro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Radio inferior izquierdo */
+    border-radius: 0px 0px 0px 20px;
+}
+
+#memoryBar {
+    border-radius: 1vh;
+    border: 3px solid white;
+    background-color: white;
+    mix-blend-mode: soft-light;
+    width: 50%;
+    height: 3vh;
+}
+
+
+/* Overflow del contenedor de ficheros. */
+
+.overflowStyle {
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
+
+/* Estilo de los ficheros de imagenes y texto guardados */
+
+.dataContainer {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    padding: 5% 10% 0% 10%;
+}
+
+.fileItem {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+    height: 200px;
+    margin: 0px 5vw 5vw 0px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.527);
+}
+
+.fileItem:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.textContentDiv,
+.imageContentDiv {
+    width: 100%;
+    height: 80%;
+    padding: 5px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+
+/* Formato del contenido que esta dentro del fichero de txt */
+
+.textFormat {
+    margin: 0px;
+    font-size: 11px;
+    color: rgb(32, 32, 32);
+    text-align: left;
+}
+
+.iconFormat {
+    width: 20px;
+    height: 20px;
+}
+
+.iconFormat:hover {
+    cursor: pointer;
+    filter: invert();
+}
+
+.textTitle {
+    margin: 0px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.InfoContentDiv {
+    width: 90%;
+    height: 80%;
+    text-align: left;
+}
+
+.dataContent {
+    margin: 5px;
+    margin-left: 10px;
+    font-size: 15px;
+    text-justify: auto;
+    color: rgb(32, 32, 32);
+}
+
+.centerImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boxLayout {
+    width: 90%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+}
+
+.box {
+    border: 1px solid black;
+}

@@ -19,7 +19,7 @@
     width: max-content;
     height: max-content;
     padding: 1vw 2vw;
-    background-color: rgba(255, 218, 151, 0.8);
+    background-color: rgba(255, 231, 189, 0.8);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -63,7 +63,7 @@
     width: max-content;
     padding: 5px;
     border: 0px;
-    border-radius: 10%;
+    border-radius: 5px;
     background-color: #ffffff00;
 }
 
@@ -78,18 +78,22 @@
 }
 
 .buttonAlert:hover {
+    cursor: pointer;
     filter: invert();
 }
 
 .hoverClose:hover {
+    cursor: pointer;
     background-color: rgba(255, 255, 255, 0.3);
 }
 
 .hoverGreen:hover {
+    cursor: pointer;
     background-color: rgba(0, 255, 0, 0.15);
 }
 
 .hoverRed:hover {
+    cursor: pointer;
     background-color: rgba(255, 0, 0, 0.15);
 }
 
