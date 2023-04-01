@@ -1,3 +1,5 @@
+/* Formato del fondo y posicionamiento de los elementos de las alertas */
+
 .alert {
     position: absolute;
     top: 0;
@@ -10,56 +12,108 @@
     align-items: center;
 }
 
+
+/* Formato del mensaje central */
+
 .alertBox {
     width: max-content;
     height: max-content;
-    background-color: rgb(255, 245, 226);
+    padding: 1vw;
+    background-color: #fff5e2;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
 }
 
-#headAlert {
+
+/* Formato de las filas de alerta */
+
+.alertStyle {
     width: 100%;
     height: 50px;
+    margin: 0px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
-.closeAlert {
-    width: 25px;
-    height: 25px;
+
+/* Formato del boton de cerrar alerta */
+
+.buttonAlert {
+    height: 30px;
+    aspect-ratio: 1/1;
+    padding: 0px;
     border: 0px;
-    border-radius: 20%;
-    cursor: pointer;
+    margin-left: 5px;
+    border-radius: 10%;
+    background-color: #ffffff00;
 }
 
-.closeAlert img {
-    width: 100%;
-    height: 100%;
+
+/* Resize el tamaño de los botones de algunas alertas */
+
+.sizeClose,
+.sizeSave {
+    height: 20px;
+    margin-left: 10px;
 }
+
+.buttonAlert:hover {
+    filter: invert();
+}
+
+
+/* Style nombre de la alerta */
 
 .nameAlert {
     font-size: 17px;
+    margin: 0px;
     font-weight: bold;
     color: rgba(68, 68, 68, 0.726)
 }
 
+
+/* colores del texto en la alerta de texto/imagen no guardado */
+
+.goodColor {
+    color: rgb(0, 139, 7);
+}
+
+.badColor {
+    color: rgb(139, 0, 0);
+}
+
+
+/* formato de input text */
+
 #nameFile {
-    margin: 10px 30px 30px 30px;
-    padding: 5px;
+    height: 26px;
     font-size: 17px;
     border-radius: 5px;
     border: 2px solid rgba(255, 0, 0, 0);
+    padding: 0px;
 }
+
+
+/* Mostrar el boton de input name cuando sea correcto */
+
+#nameChosen {
+    display: block;
+}
+
+
+/* Quitar el focus cuando estoy escribiendo en el input text */
 
 #nameFile:focus {
     outline: none;
 }
 
+
+/* Formato del texto de alerta */
+
 .textAlert {
     color: red;
-    display: none;
+    display: block;
     margin: 0px;
 }
