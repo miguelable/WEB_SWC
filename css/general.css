@@ -109,3 +109,11 @@
 .colorDayInfo {
     mix-blend-mode: color-burn;
 }
+
+.hiddenObject {
+    display: none;
+}
+
+.visibleObject {
+    display: flex;
+}

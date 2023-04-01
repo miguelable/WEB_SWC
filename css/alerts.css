@@ -18,8 +18,8 @@
 .alertBox {
     width: max-content;
     height: max-content;
-    padding: 1vw;
-    background-color: #fff5e2;
+    padding: 1vw 2vw;
+    background-color: rgba(255, 218, 151, 0.8);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -37,6 +37,14 @@
     align-items: center;
 }
 
+.columnDisplay {
+    flex-direction: column;
+}
+
+.centerAlert {
+    justify-content: center;
+}
+
 
 /* Formato del boton de cerrar alerta */
 
@@ -50,17 +58,39 @@
     background-color: #ffffff00;
 }
 
+.confirmButtonAlert {
+    height: max-content;
+    width: max-content;
+    padding: 5px;
+    border: 0px;
+    border-radius: 10%;
+    background-color: #ffffff00;
+}
+
 
 /* Resize el tamaño de los botones de algunas alertas */
 
 .sizeClose,
-.sizeSave {
+.sizeSave,
+.sizeDelete {
     height: 20px;
     margin-left: 10px;
 }
 
 .buttonAlert:hover {
     filter: invert();
+}
+
+.hoverClose:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.hoverGreen:hover {
+    background-color: rgba(0, 255, 0, 0.15);
+}
+
+.hoverRed:hover {
+    background-color: rgba(255, 0, 0, 0.15);
 }
 
 
@@ -77,11 +107,11 @@
 /* colores del texto en la alerta de texto/imagen no guardado */
 
 .goodColor {
-    color: rgb(0, 139, 7);
+    color: rgba(0, 200, 0, 0.4);
 }
 
 .badColor {
-    color: rgb(139, 0, 0);
+    color: rgba(255, 0, 0, 0.4);
 }
 
 
@@ -96,13 +126,6 @@
 }
 
 
-/* Mostrar el boton de input name cuando sea correcto */
-
-#nameChosen {
-    display: block;
-}
-
-
 /* Quitar el focus cuando estoy escribiendo en el input text */
 
 #nameFile:focus {
@@ -114,6 +137,5 @@
 
 .textAlert {
     color: red;
-    display: block;
     margin: 0px;
 }

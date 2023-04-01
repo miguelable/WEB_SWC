@@ -57,7 +57,7 @@
             </svg>
             <input type="color" id="paletteInput" class="fitImage position">
         </div>
-        <div id="saveBox" class="optionsBox">
+        <div id="saveFile" class="optionsBox">
             <img id="saveImage" class="fitImage" src="../img/Save.png" alt="Save.png">
         </div>
     </div>
@@ -155,18 +155,66 @@
         <p id="hour" class="dayInfo"></p>
         <p id="date" class="dayInfo"></p>
     </div>
-    <!-- <div class="alert">
+    <!-- Alerta de definir nombre -->
+    <div id="defineNameAlert" class="alert hiddenObject">
         <div class="alertBox">
-            <div id="headAlert">
-                <p class="nameAlert">Image Name</p>
-                <button class="closeAlert">
-                    <img src="../img/Close.png" alt="close">
+            <p class="nameAlert alertStyle">Image Name</p>
+            <p class="textAlert hiddenObject">Repeated name</p>
+            <div class="alertStyle">
+                <input type="text" id="nameFile" placeholder="exampleName">
+                <button id="nameChosen" class="buttonAlert hiddenObject">
+                    <img class="fitImage" src="../img/Next.png" alt="nextStep">
                 </button>
             </div>
-            <p id="repeatName" class="textAlert">Repeated name</p>
-            <input type="text" id="nameFile" placeholder="exampleName">
         </div>
-    </div> -->
+    </div>
+    <!-- Alerta de fichero grande -->
+    <div id="bigFileAlert" class="alert hiddenObject">
+        <div class="alertBox">
+            <div class="alertStyle">
+                <p class="nameAlert">Save image ERROR</p>
+                <button class="buttonAlert sizeClose hoverClose">
+                    <img class="fitImage" src="../img/Close.png" alt="nextStep">
+                </button>
+            </div>
+            <div class="alertStyle centerAlert columnDisplay">
+                <p class="textAlert"><strong>Too big !</strong></p>
+                <p class="textAlert"><strong>Reduce content</strong></p>
+            </div>
+        </div>
+    </div>
+    <!-- Alerta de fichero no guardado al cerrar la ventana -->
+    <div id="noneSaveAlert" class="alert hiddenObject">
+        <div class="alertBox">
+            <p class="nameAlert alertStyle">File NOT SAVED !</p>
+            <div class="alertStyle centerAlert">
+                <button class="confirmButtonAlert hoverGreen">
+                    <p class="nameAlert goodColor">Save File</p>
+                </button>
+            </div>
+            <div class="alertStyle centerAlert">
+                <button class="confirmButtonAlert hoverRed">
+                    <p class="nameAlert badColor">Don´t Save File</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Alerta de borrar imagen dibujada -->
+    <div id="deleteImageAlert" class="alert hiddenObject">
+        <div class="alertBox">
+            <p class="nameAlert alertStyle">Delete image</p>
+            <div class="alertStyle centerAlert">
+                <button class="confirmButtonAlert hoverGreen">
+                    <p class="nameAlert goodColor">Yes</p>
+                </button>
+            </div>
+            <div class="alertStyle centerAlert">
+                <button class="confirmButtonAlert hoverRed">
+                    <p class="nameAlert badColor">No</p>
+                </button>
+            </div>
+        </div>
+    </div>
     <script src="../js/alerts.js" rel="script"></script>
     <script src="../js/imageEditor.js" rel="script"></script>
     <script src="../js/pageflow.js" rel="script"></script>
