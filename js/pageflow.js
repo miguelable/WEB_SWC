@@ -8,27 +8,24 @@ if (closeButton != null) {
     //sacamos el valor de la pagina actual en la que nos encontramos
     paginaActual = document.querySelector('.appType').innerText;
     //Añadimos lógica al boton de cerrar pestaña
-    closeButton.addEventListener('click', function() {
-        //extraemos el ultimo valor del array de ventanas abiertas
-        cerrarApp = paginasVistas.pop();
-        //Si la ventana que hemos cerrado era la últimas abierta volvemos a inicio
-        if (paginasVistas.length === 0) {
-            window.location.href = "../index.html";
-        } else { //en el caso de que no sea la ultimo nos dirigiremos a la abierta anteriormente
-            pageToGo = paginasVistas.slice(-1)[0];
-            if (pageToGo === "Search Files") {
-                window.location.href = 'searchFiles.html';
-            } else if (pageToGo === "Trash") {
-                window.location.href = 'trash.html';
-            } else if (pageToGo === "Text Editor") {
-                window.location.href = 'textEditor.html';
-            } else if (pageToGo === "Image Editor") {
-                window.location.href = 'imageEditor.html';
+    //Dar estilos a los botones al abrir la página y cambiar posicion de página si ya estaba abierta
+    if (!paginasVistas) {
+        paginasVistas = [];
+    } else {
+        paginasVistas = JSON.parse(paginasVistas);
+        for (let i = 0; i < paginasVistas.length; i++) {
+            if (paginasVistas[i] == paginaActual) {
+                paginasVistas.splice(i, 1);
             }
+            printBackgound(paginasVistas[i]);
         }
-        //actualizamos el array de ventanas abiertas
-        sessionStorage.setItem("visitedPages", JSON.stringify(paginasVistas));
-    });
+    }
+    paginasVistas.push(paginaActual);
+    for (let i = 0; i < paginasVistas.length; i++) {
+        printBackgound(paginasVistas[i]);
+    }
+    sessionStorage.setItem("visitedPages", JSON.stringify(paginasVistas));
+    // console.log(paginasVistas);
 }
 
 function printBackgound(element) {
@@ -54,27 +51,6 @@ function printBackgound(element) {
         }
     }
 }
-
-if (closeButton != null) {
-    if (!paginasVistas) {
-        paginasVistas = [];
-    } else {
-        paginasVistas = JSON.parse(paginasVistas);
-        for (let i = 0; i < paginasVistas.length; i++) {
-            if (paginasVistas[i] == paginaActual) {
-                paginasVistas.splice(i, 1);
-            }
-            printBackgound(paginasVistas[i]);
-        }
-    }
-    paginasVistas.push(paginaActual);
-    for (let i = 0; i < paginasVistas.length; i++) {
-        printBackgound(paginasVistas[i]);
-    }
-    sessionStorage.setItem("visitedPages", JSON.stringify(paginasVistas));
-    console.log(paginasVistas);
-}
-
 
 botones.forEach(function(buton) {
     buton.addEventListener("click", function(event) {
@@ -103,3 +79,25 @@ botones.forEach(function(buton) {
 
     })
 });
+
+function previousPage() {
+    //extraemos el ultimo valor del array de ventanas abiertas
+    cerrarApp = paginasVistas.pop();
+    //Si la ventana que hemos cerrado era la últimas abierta volvemos a inicio
+    if (paginasVistas.length === 0) {
+        window.location.href = "../index.html";
+    } else { //en el caso de que no sea la ultimo nos dirigiremos a la abierta anteriormente
+        pageToGo = paginasVistas.slice(-1)[0];
+        if (pageToGo === "Search Files") {
+            window.location.href = 'searchFiles.html';
+        } else if (pageToGo === "Trash") {
+            window.location.href = 'trash.html';
+        } else if (pageToGo === "Text Editor") {
+            window.location.href = 'textEditor.html';
+        } else if (pageToGo === "Image Editor") {
+            window.location.href = 'imageEditor.html';
+        }
+    }
+    //actualizamos el array de ventanas abiertas
+    sessionStorage.setItem("visitedPages", JSON.stringify(paginasVistas));
+}

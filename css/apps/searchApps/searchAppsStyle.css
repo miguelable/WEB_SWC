@@ -46,14 +46,6 @@ Dar más opacidad al elemento seleccionado */
 }
 
 
-/* Overflow del contenedor de ficheros. */
-
-.overflowStyle {
-    overflow: auto;
-    scrollbar-width: thin;
-}
-
-
 /* Estilo de los ficheros de imagenes y texto guardados */
 
 .dataContainer {

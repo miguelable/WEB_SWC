@@ -13,6 +13,7 @@
     <link href="../css/apps/allAppsStyle.css" rel="stylesheet">
     <link href="../css/apps/editorApps/editorAppsStyle.css" rel="stylesheet">
     <link href="../css/apps/editorApps/textEditor.css" rel="stylesheet">
+    <script src="../js/commonData.js" rel="script"></script>
 </head>
 
 <body class="container">
@@ -29,10 +30,10 @@
     </div>
     <div id="mainConent" class="backgroundMain">
         <div id="contentArea">
-            <textarea id="textArea" type="text"></textarea>
+            <textarea id="textArea" type="text" class="overflowStyle"></textarea>
             <div class="dataFilesSpace">
-                <p class="textSize" id="fileName">Text1.txt</p>
-                <p class="textSize" id="fileSize">0 bytes</p>
+                <p class="textSize" id="fileName"> </p>
+                <p class="textSize" id="fileSize"> </p>
             </div>
         </div>
     </div>
@@ -58,7 +59,7 @@
     <!-- Alerta de definir nombre -->
     <div id="defineNameAlert" class="alert hiddenObject">
         <div class="alertBox">
-            <p class="nameAlert alertStyle">Image Name</p>
+            <p class="nameAlert alertStyle">Text Name</p>
             <p class="textAlert hiddenObject">Repeated name</p>
             <div class="alertStyle">
                 <input type="text" id="nameFile" placeholder="exampleName">
@@ -72,8 +73,8 @@
     <div id="bigFileAlert" class="alert hiddenObject">
         <div class="alertBox">
             <div class="alertStyle">
-                <p class="nameAlert">Save image ERROR</p>
-                <button class="buttonAlert sizeClose hoverClose">
+                <p class="nameAlert">Save text ERROR</p>
+                <button id="returnToText" class="buttonAlert sizeClose hoverClose">
                     <img class="fitImage" src="../img/Close.png" alt="nextStep">
                 </button>
             </div>
@@ -88,21 +89,21 @@
         <div class="alertBox">
             <p class="nameAlert alertStyle">File NOT SAVED !</p>
             <div class="alertStyle centerAlert">
-                <button class="confirmButtonAlert hoverGreen">
+                <button id="confirmYes" class="confirmButtonAlert hoverGreen">
                     <p class="nameAlert goodColor">Save File</p>
                 </button>
             </div>
             <div class="alertStyle centerAlert">
-                <button class="confirmButtonAlert hoverRed">
+                <button id="confirmNo" class="confirmButtonAlert hoverRed">
                     <p class="nameAlert badColor">Don´t Save File</p>
                 </button>
             </div>
         </div>
     </div>
+    <script src="../js/dateHour.js" rel="script"></script>
+    <script src="../js/pageflow.js" rel="script"></script>
     <script src="../js/alerts.js" rel="script"></script>
     <script src="../js/textEditor.js" rel="script"></script>
-    <script src="../js/pageflow.js" rel="script"></script>
-    <script src="../js/dateHour.js" rel="script"></script>
 </body>
 
 

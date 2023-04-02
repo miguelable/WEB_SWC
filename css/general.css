@@ -118,3 +118,11 @@
 .visibleObject {
     display: flex;
 }
+
+
+/* Overflow del contenedor de ficheros. */
+
+.overflowStyle {
+    overflow: auto;
+    scrollbar-width: thin;
+}
