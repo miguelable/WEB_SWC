@@ -5,16 +5,16 @@
 
 if (savedTextFile.name != "") {
     //sumamos el nombre a al texto introducido.
-    let fullSize;
-    if (savedTextFile.name) fileName.innerText = savedTextFile.name + ".txt";
+    let fullSize = 0;
+    if (savedTextFile.name) {
+        fileName.innerText = savedTextFile.name + ".txt";
+        fullSize += savedTextFile.name.length;
+        textArea.value = " ";
+    }
     // En caso de haber escrito algo antes
     if (savedTextFile.contentNotSaved) {
-        fullSize = savedTextFile.contentNotSaved.length + savedTextFile.name.length;
+        fullSize += savedTextFile.contentNotSaved.length;
         textArea.value = savedTextFile.contentNotSaved;
-    } else if (savedTextFile.name) {
-        //si no había nada escrito entonces  solo mostramos el tamaño del nombre
-        fullSize = savedTextFile.name.length;
-        textArea.value = " ";
     }
     if (fullSize) {
         fileSize.innerText = fullSize + ' bytes';

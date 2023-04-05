@@ -132,8 +132,8 @@
                 <div class="box"></div>
             </div>
             <div class="dataFilesSpace">
-                <p class="textSize" id="imageName">Imagen1.img</p>
-                <p class="textSize" id="imageSize">0 bytes</p>
+                <p class="textSize" id="fileName"> </p>
+                <p class="textSize" id="fileSize"> </p>
             </div>
         </div>
     </div>
@@ -175,7 +175,7 @@
         <div class="alertBox">
             <div class="alertStyle">
                 <p class="nameAlert">Save image ERROR</p>
-                <button class="buttonAlert sizeClose hoverClose">
+                <button id="returnToText" class="buttonAlert sizeClose hoverClose">
                     <img class="fitImage" src="../img/Close.png" alt="nextStep">
                 </button>
             </div>
@@ -190,12 +190,12 @@
         <div class="alertBox">
             <p class="nameAlert alertStyle">File NOT SAVED !</p>
             <div class="alertStyle centerAlert">
-                <button class="confirmButtonAlert hoverGreen">
+                <button id="confirmYes" class="confirmButtonAlert hoverGreen">
                     <p class="nameAlert goodColor">Save File</p>
                 </button>
             </div>
             <div class="alertStyle centerAlert">
-                <button class="confirmButtonAlert hoverRed">
+                <button id="confirmNo" class="confirmButtonAlert hoverRed">
                     <p class="nameAlert badColor">Don´t Save File</p>
                 </button>
             </div>
@@ -206,10 +206,10 @@
         <div class="alertBox">
             <p class="nameAlert alertStyle">Delete Image</p>
             <div class="alertStyle">
-                <button class="confirmButtonAlert hoverGreen">
+                <button id="confirmYes" class="confirmButtonAlert hoverGreen">
                     <p class="nameAlert goodColor">Yes</p>
                 </button>
-                <button class="confirmButtonAlert hoverRed">
+                <button id="confirmNo" class="confirmButtonAlert hoverRed">
                     <p class="nameAlert badColor">No</p>
                 </button>
             </div>
@@ -217,6 +217,7 @@
     </div>
     <script src="../js/pageflow.js" rel="script"></script>
     <script src="../js/alerts.js" rel="script"></script>
+    <script src="../js/imageEditor.js" rel="script"></script>
     <script src="../js/dateHour.js" rel="script"></script>
 </body>
 
