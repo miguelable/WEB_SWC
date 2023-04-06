@@ -18,6 +18,8 @@ const returnToText = document.getElementById('returnToText');
 const noneSaveAlert = document.getElementById('noneSaveAlert');
 const confirmYes = document.getElementById('confirmYes');
 const confirmNo = document.getElementById('confirmNo');
+const eraseYes = document.getElementById('eraseYes');
+const eraseNo = document.getElementById('eraseNo');
 
 const deleteFileAlert = document.getElementById('deleteFileAlert');
 
@@ -32,6 +34,9 @@ let savedTextFilesMemory = JSON.parse(sessionStorage.getItem("savedTextFilesMemo
 let textFilesMemory = []; //array con objetos y METODOS
 let savedImageFilesMemory = JSON.parse(sessionStorage.getItem("savedImageFilesMemory")); //objeto de imagen guardado en memoria sin METODOS
 let imageFilesMemory = [];
+
+let deletedTextFilesMemory = JSON.parse(sessionStorage.getItem("deletedTextFilesMemory")); //objeto de texto guardado en memoria sin METODOS
+let deletedImageFilesMemory = JSON.parse(sessionStorage.getItem("deletedImageFilesMemory")); //objeto de imagen guardado en memoria sin METODOS
 
 if (paginaActual === "Text Editor") {
     saveFile.addEventListener('click', saveTextFileMemory);
@@ -80,8 +85,6 @@ if (paginaActual === "Image Editor") {
         console.log(imageFilesMemory);
     }
 }
-
-
 
 function validateTextInputName(event) {
     // console.log(event.target.textLength);
@@ -172,15 +175,17 @@ function saveCurrentImageFile() {
     sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
 }
 
-
 function saveTextFileMemory() {
     // tenenmos que comprobar que el alrchivo entra en memoria antes de guardar
     if (!memmoryStatus) memmoryStatus = 0;
-    if (textArea.value.length + savedTextFile.name.length + parseInt(memmoryStatus) <= 1000) {
-        savedTextFile.content = textArea.value;
+    if (savedTextFile.contentNotSaved == undefined) savedTextFile.contentNotSaved = "";
+    if (savedTextFile.contentNotSaved.length + savedTextFile.name.length + parseInt(memmoryStatus) <= 1000) {
+        savedTextFile.content = savedTextFile.contentNotSaved;
         savedTextFile.date = new Date();
         console.log(savedTextFile);
         sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+        if (saveFile) saveFile.setAttribute("style", "filter: invert(100%);");
+
         return true;
     } else {
         console.log('no podemos guardar');
@@ -208,6 +213,7 @@ function saveImageFileMemory() {
         savedImageFile.date = new Date();
         console.log(savedImageFile);
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+        saveFile.setAttribute("style", "filter: invert(100%);");
         return true;
     } else {
         console.log('no podemos guardar');
@@ -218,7 +224,6 @@ function saveImageFileMemory() {
         return false;
     }
 }
-
 
 function checkTextFileSaved() {
     //comparamos los dos contenidos de savedTextFile
@@ -285,7 +290,7 @@ function checkImageFileSaved() {
 function checkEqualImages() {
     let equal = true;
     for (let i = 0; i < savedImageFile.contentNotSaved.length; i++) {
-        if (savedImageFile.content[i] != savedImageFile.contentNotSaved[i]) {
+        if (!savedImageFile.content || savedImageFile.content[i] != savedImageFile.contentNotSaved[i]) {
             equal = false;
             break;
         }
@@ -299,8 +304,19 @@ function keepTextFile() {
         textFile.name = savedTextFile.name;
         textFile.content = savedTextFile.content;
         textFile.date = new Date();
-        savedTextFilesMemory.push(textFile);
+        //comprobamos que no exista otro texto con el mismo nombre
+        let exist = false;
+        for (let i = 0; i < savedTextFilesMemory.length; i++) {
+            if (savedTextFilesMemory[i].name == textFile.name) {
+                exist = true;
+                //si existe lo sustituimos
+                savedTextFilesMemory[i] = textFile;
+                break;
+            }
+        }
+        if (!exist) savedTextFilesMemory.push(textFile);
         sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+
         console.log(savedTextFilesMemory);
         // incrementamos el valor de la memoria
         allMemory = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
@@ -343,7 +359,6 @@ function keepImageFile() {
     }
 }
 
-
 function eraseTextFile() {
     savedTextFile = {};
     sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
@@ -358,7 +373,7 @@ function eraseImageFile() {
 
 function eraseImage() {
     deleteFileAlert.classList.remove('hiddenObject');
-    confirmYes.addEventListener('click', () => {
+    eraseYes.addEventListener('click', () => {
         boxes.forEach((box, index) => {
             box.style.backgroundColor = "";
         });
@@ -373,7 +388,82 @@ function eraseImage() {
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
         deleteFileAlert.classList.add('hiddenObject');
     });
-    confirmNo.addEventListener('click', () => {
+    eraseNo.addEventListener('click', () => {
         deleteFileAlert.classList.add('hiddenObject');
     });
+}
+
+function daletFile(fileToDelate) {
+    console.log(fileToDelate)
+    console.log(fileToDelate.childNodes[2].innerText.slice(0, -4));
+    deleteFileAlert.classList.remove('hiddenObject');
+    eraseYes.addEventListener('click', () => {
+        //buscamos el fichero en la lista de objetos guardados
+        for (let i = 0; i < savedTextFilesMemory.length; i++) {
+            if (savedTextFilesMemory[i].name == fileToDelate.childNodes[2].innerText.slice(0, -4)) {
+                let delatedFile = savedTextFilesMemory.splice(i, 1);
+                sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+                console.log(delatedFile);
+                //añadimos el elemento eliminado al array de elementos eliminados
+                if (!deletedTextFilesMemory) deletedTextFilesMemory = [];
+                else {
+                    deletedTextFilesMemory.push(delatedFile[0]);
+                    sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
+                }
+
+                // decrementamos el valor de la memoria
+                allMemory = memmoryStatus - delatedFile[0].name.length - delatedFile[0].content.length;
+                sessionStorage.setItem('memmoryStatus', allMemory);
+                console.log(allMemory);
+                // eliminamos el elemento del DOM
+                fileToDelate.nextSibling.remove();
+                fileToDelate.remove();
+                break;
+            }
+        }
+        deleteFileAlert.classList.add('hiddenObject');
+        location.reload();
+    });
+    eraseNo.addEventListener('click', () => {
+        deleteFileAlert.classList.add('hiddenObject');
+    });
+}
+
+function saveAndMove(file) {
+    console.log(file);
+    if (saveTextFileMemory()) {
+        let textFile = {};
+        textFile.extension = 'txt';
+        textFile.name = savedTextFile.name;
+        textFile.content = savedTextFile.content;
+        textFile.date = new Date();
+        savedTextFilesMemory.push(textFile);
+        sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+        console.log(savedTextFilesMemory);
+        // incrementamos el valor de la memoria
+        allMemory = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
+        sessionStorage.setItem('memmoryStatus', allMemory);
+        console.log(allMemory);
+
+        savedTextFile.name = file.name;
+        savedTextFile.content = file.content;
+        savedTextFile.date = file.date;
+        sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+        noneSaveAlert.classList.add('hiddenObject');
+    } else {
+        noneSaveAlert.classList.add('hiddenObject');
+    }
+}
+
+function textFileNotSaved(file) {
+    confirmYes.addEventListener('click', () => {
+        saveAndMove(file);
+    });
+    confirmNo.addEventListener('click', () => {
+        savedTextFile.name = file.name;
+        savedTextFile.content = file.content;
+        savedTextFile.date = file.date;
+        sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+    });
+    noneSaveAlert.classList.remove('hiddenObject');
 }

@@ -4,7 +4,7 @@ const paint = document.getElementById('paintBox');
 const bucket = document.getElementById('bucketBox');
 const erase = document.getElementById('eraseBox');
 
-let colorChosen;
+let colorChosen = 'black';
 let isPaint = false;
 let isBucket = false;
 
@@ -59,6 +59,7 @@ boxes.forEach((box, index) => {
         fileSize.innerText = fullSize + ' bytes';
         console.log(savedImageFile.contentNotSaved);
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+        saveFile.removeAttribute("style", "filter: invert(100%);");
     });
 });
 

@@ -28,6 +28,7 @@ function countChars() {
     let fullSize = textArea.value.length + savedTextFile.name.length;
     fileSize.innerText = fullSize + ' bytes';
     sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+    saveFile.removeAttribute("style", "filter: invert(100%);");
 }
 
 closeButton.addEventListener('click', leaveApp);
