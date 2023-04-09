@@ -1,13 +1,13 @@
-var canvas = document.getElementById("memoryBar");
-var ctx = canvas.getContext("2d");
-var min = 0;
-var max = 1000;
-var borderRadius = 10;
+const canvas = document.getElementById("memoryBar");
+const ctx = canvas.getContext("2d");
+const min = 0;
+const max = 1000;
+const borderRadius = 10;
 
 // Función para actualizar la barra de memoria
 function updateMemoryBar(memmoryStatus) {
     // Calcular el porcentaje de la barra que se debe rellenar
-    var percentage = (memmoryStatus - min) / (max - min);
+    let percentage = (memmoryStatus - min) / (max - min);
 
     // Definir el color de la barra
     ctx.fillStyle = "#474747";

@@ -58,7 +58,7 @@ function addTextFileToContainer(file) {
 
     // Crear imagen de eliminación
     const trashImg = document.createElement("img");
-    trashImg.className = "iconFormat trashIcon";
+    trashImg.className = "iconFormat trashTxtIcon";
     trashImg.src = "../img/Trash.svg";
     trashImg.alt = "Trash.png";
 
@@ -90,7 +90,7 @@ function addTextFileToContainer(file) {
     let fileSize = file.content.length + file.name.length;
     var fileSizeP = document.createElement('p');
     fileSizeP.className = "dataContent";
-    fileSizeP.innerHTML = '<strong>Size:</strong> ' + fileSize;
+    fileSizeP.innerHTML = '<strong>Size:</strong> ' + fileSize + " bytes";
 
     const dateObj = new Date(file.date);
     var fileDateP = document.createElement('p');
@@ -169,14 +169,14 @@ function addImageFileToContainer(file) {
     // Crear título de archivo y establecer el contenido
     const title = document.createElement("h5");
     title.className = "textTitle";
-    title.textContent = file.name + ".png";
+    title.textContent = file.name + ".img";
 
     // Agregar título al contenedor de archivo
     fileDiv.appendChild(title);
 
     // Crear imagen de eliminación
     const trashImg = document.createElement("img");
-    trashImg.className = "iconFormat trashIcon";
+    trashImg.className = "iconFormat trashImgIcon";
     trashImg.src = "../img/Trash.svg";
     trashImg.alt = "Trash.png";
 
@@ -188,7 +188,7 @@ function addImageFileToContainer(file) {
 
     //----------------------- Crear contenedor de información detallada del archivo -----------------------------//
     var fileInfoDiv = document.createElement('div');
-    fileInfoDiv.className = "fileItem fileTextInfo hiddenInfo"
+    fileInfoDiv.className = "fileItem fileImgInfo hiddenInfo"
 
     // Crear el contenedor de la información del archivo
     var infoContentDiv = document.createElement('div');
@@ -201,13 +201,13 @@ function addImageFileToContainer(file) {
 
     var fileExtensionP = document.createElement('p');
     fileExtensionP.className = "dataContent"
-    fileExtensionP.innerHTML = '<strong>Extension:</strong> ' + "txt";
+    fileExtensionP.innerHTML = '<strong>Extension:</strong> ' + "img";
 
 
     let fileSize = file.content.length + file.name.length;
     var fileSizeP = document.createElement('p');
     fileSizeP.className = "dataContent";
-    fileSizeP.innerHTML = '<strong>Size:</strong> ' + fileSize;
+    fileSizeP.innerHTML = '<strong>Size:</strong> ' + fileSize + " bytes";
 
     const dateObj = new Date(file.date);
     var fileDateP = document.createElement('p');
@@ -229,7 +229,7 @@ function addImageFileToContainer(file) {
     // Crear el título del archivo
     var fileTitleH5 = document.createElement('h5');
     fileTitleH5.className = "textTitle";
-    fileTitleH5.innerText = file.name + ".txt";
+    fileTitleH5.innerText = file.name + ".img";
 
     // Crear espacio sin contenido para que el texto mantenga un sentido
     var whiteSpace = document.createElement('span');
@@ -242,7 +242,7 @@ function addImageFileToContainer(file) {
     fileInfoDiv.appendChild(whiteSpace);
 
     // Agregar contenedor de archivo al contenedor principal
-    textContainer.appendChild(fileInfoDiv);
+    imageContainer.appendChild(fileInfoDiv);
 
 }
 
@@ -265,28 +265,40 @@ imageInfo.addEventListener('click', () => {
 
 const infoImg = document.querySelectorAll('.imgIcon');
 const exitInfoImg = document.querySelectorAll('.closeIcon');
-const delateImg = document.querySelectorAll('.trashIcon');
-// cuando pulsamos el boton de info mostramos la informacion del fichero
+const delateText = document.querySelectorAll('.trashTxtIcon');
+const delateImg = document.querySelectorAll('.trashImgIcon');
+
+
 for (let i = 0; i < infoImg.length; i++) {
+    // cuando pulsamos el boton de info mostramos la informacion del fichero
     infoImg[i].addEventListener('click', () => {
         infoImg[i].parentNode.classList.add('hiddenInfo');
         infoImg[i].parentNode.nextSibling.classList.remove('hiddenInfo');
     });
+    // cuando pulsamos el boton de cerrar ocultamos la informacion del fichero
     exitInfoImg[i].addEventListener('click', () => {
         infoImg[i].parentNode.classList.remove('hiddenInfo');
         infoImg[i].parentNode.nextSibling.classList.add('hiddenInfo');
     });
-    delateImg[i].addEventListener('click', () => {
-        daletFile(delateImg[i].parentNode);
-    });
-
+    // cuando pulsamos el boton de eliminar texto
+    if (delateText[i]) {
+        delateText[i].addEventListener('click', () => {
+            daletTextFile(delateText[i].parentNode);
+        });
+    }
+    // cuando pulsamos el boton de eliminar imagen
+    if (delateImg[i]) {
+        delateImg[i].addEventListener('click', () => {
+            daletImageFile(delateImg[i].parentNode);
+        });
+    }
 }
 
 const fileText = document.querySelectorAll('.fileText');
 const fileTextInfo = document.querySelectorAll('.fileTextInfo');
 console.log(fileText);
 
-//asignamos a cada objeto un eventlistener de doble click tanto a la cara principal como a la de info
+//asignamos a cada objeto de text un eventlistener de doble click tanto a la cara principal como a la de info
 for (let i = 0; i < fileText.length; i++) {
     fileText[i].addEventListener('dblclick', () => {
         if (savedTextFile.name) {
@@ -294,7 +306,7 @@ for (let i = 0; i < fileText.length; i++) {
             textFileNotSaved(savedTextFilesMemory[i]);
             console.log("one file open");
         } else {
-            openFile(savedTextFilesMemory[i]);
+            openTextFile(savedTextFilesMemory[i]);
             console.log("no file open");
         }
     });
@@ -312,7 +324,7 @@ for (let i = 0; i < fileText.length; i++) {
     });
 }
 
-function openFile(file) {
+function openTextFile(file) {
     //abrimos el fichero
     savedTextFile.name = file.name;
     savedTextFile.content = file.content;
@@ -321,5 +333,47 @@ function openFile(file) {
     // nos dirigimos a la pagina de editar ficheros
     window.location.href = 'textEditor.html';
 }
+
+const fileImg = document.querySelectorAll('.fileImage');
+const fileImgInfo = document.querySelectorAll('.fileImgInfo');
+console.log(fileImg);
+
+//asignamos a cada objeto de imagen un eventlistener de doble click tanto a la cara principal como a la de info
+for (let i = 0; i < fileImg.length; i++) {
+    fileImg[i].addEventListener('dblclick', () => {
+        if (savedImageFile.name) {
+            // alerta de fichero abierto
+            imageFileNotSaved(savedImageFilesMemory[i]);
+            console.log("one file open");
+        } else {
+            openImageFile(savedImageFilesMemory[i]);
+            console.log("no file open");
+        }
+    });
+}
+for (let i = 0; i < fileImg.length; i++) {
+    fileImgInfo[i].addEventListener('dblclick', () => {
+        if (savedImageFile.name) {
+            // alerta de fichero abierto
+            imageFileNotSaved(savedImageFilesMemory[i]);
+            console.log("one file open");
+        } else {
+            openImageFile(savedImageFilesMemory[i]);
+            console.log("no file open");
+        }
+    });
+}
+
+function openImageFile(file) {
+    //abrimos el fichero
+    savedImageFile.name = file.name;
+    savedImageFile.content = file.content;
+    savedImageFile.contentNotSaved = file.content;
+    sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+    // nos dirigimos a la pagina de editar ficheros
+    window.location.href = 'imageEditor.html';
+}
+
+
 
 closeButton.addEventListener('click', previousPage);
