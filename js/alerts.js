@@ -30,7 +30,7 @@ const restoreAlert = document.getElementById('restoreAlert');
 const replaceYes = document.getElementById('replaceYes');
 const replaceNo = document.getElementById('replaceNo');
 
-let memmoryStatus = sessionStorage.getItem('memmoryStatus');
+memmoryStatus = sessionStorage.getItem('memmoryStatus');
 
 // objetos de los ficheros que se están editando y no guardados en memoria.
 let savedTextFile = JSON.parse(sessionStorage.getItem("savedTextFile")); //objeto de texto guardado en memoria. SIN METODOS
@@ -187,8 +187,8 @@ function saveTextFileMemory() {
             if (savedTextFilesMemory[i].name == savedTextFile.name) {
                 exist = true;
                 //calculamos la diferencia en memoria
-                let allMemory = savedTextFile.content.length - savedTextFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                memmoryStatus = savedTextFile.content.length - savedTextFilesMemory[i].content.length + parseInt(memmoryStatus);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedTextFilesMemory[i] = savedTextFile;
                 break;
@@ -196,8 +196,8 @@ function saveTextFileMemory() {
         }
         if (!exist) {
             savedTextFilesMemory.push(savedTextFile);
-            allMemory = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
 
         }
         sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
@@ -243,8 +243,8 @@ function saveImageFileMemory() {
                         contentSize++;
                     }
                 });
-                let allMemory = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                memmoryStatus = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedImageFilesMemory[i] = savedImageFile;
                 break;
@@ -259,8 +259,8 @@ function saveImageFileMemory() {
                     contentSize++;
                 }
             });
-            allMemory = savedImageFile.name.length + contentSize + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = savedImageFile.name.length + contentSize + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
         }
         sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
         console.log(savedImageFilesMemory);
@@ -295,10 +295,10 @@ function checkTextFileSaved() {
             if (savedTextFilesMemory[i].name == textFile.name) {
                 exist = true;
                 // calculamos la diferencia de memoria 
-                let allMemory = textFile.content.length -
+                memmoryStatus = textFile.content.length -
                     savedTextFilesMemory[i].content.length +
                     parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedTextFilesMemory[i] = textFile;
                 break;
@@ -306,8 +306,8 @@ function checkTextFileSaved() {
         }
         if (!exist) {
             savedTextFilesMemory.push(textFile);
-            allMemory = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
         }
         sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
         console.log(savedTextFilesMemory);
@@ -337,8 +337,8 @@ function checkImageFileSaved() {
                         contentSize++;
                     }
                 });
-                let allMemory = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                memmoryStatus = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedImageFilesMemory[i] = imageFile;
                 break;
@@ -353,8 +353,8 @@ function checkImageFileSaved() {
                     contentSize++;
                 }
             });
-            allMemory = imageFile.name.length + contentSize + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = imageFile.name.length + contentSize + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
         }
         sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
         console.log(savedImageFilesMemory);
@@ -395,8 +395,8 @@ function keepTextFile() {
             if (savedTextFilesMemory[i].name == textFile.name) {
                 exist = true;
                 //calculamos la diferencia en memoria
-                let allMemory = textFile.content.length - savedTextFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                memmoryStatus = textFile.content.length - savedTextFilesMemory[i].content.length + parseInt(memmoryStatus);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedTextFilesMemory[i] = textFile;
                 break;
@@ -404,8 +404,8 @@ function keepTextFile() {
         }
         if (!exist) {
             savedTextFilesMemory.push(textFile);
-            allMemory = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
 
         }
         sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
@@ -438,8 +438,8 @@ function keepImageFile() {
                         contentSize++;
                     }
                 });
-                let allMemory = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                memmoryStatus = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedImageFilesMemory[i] = imageFile;
                 break;
@@ -454,8 +454,8 @@ function keepImageFile() {
                     contentSize++;
                 }
             });
-            allMemory = imageFile.name.length + contentSize + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = imageFile.name.length + contentSize + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
         }
         sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
         console.log(savedImageFilesMemory);
@@ -520,9 +520,9 @@ function daletTextFile(fileToDelate) {
                 sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
 
                 //No decrementamos el valor de la memoria
-                // allMemory = parseInt(memmoryStatus) - delatedFile[0].name.length - delatedFile[0].content.length;
-                // sessionStorage.setItem('memmoryStatus', allMemory);
-                // console.log(allMemory);
+                // memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - delatedFile[0].content.length;
+                // sessionStorage.setItem('memmoryStatus', memmoryStatus);
+                // console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
@@ -559,9 +559,9 @@ function daletImageFile(fileToDelate) {
                 //         contentSize++;
                 //     }
                 // });
-                // allMemory = parseInt(memmoryStatus) - delatedFile[0].name.length - contentSize;
-                // sessionStorage.setItem('memmoryStatus', allMemory);
-                // console.log(allMemory);
+                // memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - contentSize;
+                // sessionStorage.setItem('memmoryStatus', memmoryStatus);
+                // console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
@@ -577,7 +577,7 @@ function daletImageFile(fileToDelate) {
 
 function saveTextAndMove(file) {
     if (saveTextFileMemory()) {
-        let allMemory = 0;
+        memmoryStatus = 0;
         let textFile = {};
         textFile.extension = 'txt';
         textFile.name = savedTextFile.name;
@@ -588,10 +588,10 @@ function saveTextAndMove(file) {
             if (savedTextFilesMemory[i].name == textFile.name) {
                 exist = true;
                 //calculamos la diferencia de memoria
-                allMemory = textFile.content.length -
+                memmoryStatus = textFile.content.length -
                     savedTextFilesMemory[i].content.length +
                     parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedTextFilesMemory[i] = textFile;
                 break;
@@ -599,14 +599,14 @@ function saveTextAndMove(file) {
         }
         if (!exist) {
             savedTextFilesMemory.push(textFile);
-            allMemory = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
 
         }
         sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
         console.log(savedTextFilesMemory);
         // incrementamos el valor de la memoria
-        console.log(allMemory);
+        console.log(memmoryStatus);
 
 
         savedTextFile.name = file.name;
@@ -623,7 +623,7 @@ function saveTextAndMove(file) {
 
 function saveImageAndMove(file) {
     if (saveImageFileMemory()) {
-        let allMemory = 0;
+        memmoryStatus = 0;
         let imageFile = {};
         imageFile.extension = 'img';
         imageFile.name = savedImageFile.name;
@@ -640,10 +640,10 @@ function saveImageAndMove(file) {
                         contentSize++;
                     }
                 });
-                allMemory = contentSize -
+                memmoryStatus = contentSize -
                     savedImageFilesMemory[i].content.length +
                     parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', allMemory);
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedImageFilesMemory[i] = imageFile;
                 break;
@@ -657,14 +657,14 @@ function saveImageAndMove(file) {
                     contentSize++;
                 }
             });
-            allMemory = imageFile.name.length + contentSize + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', allMemory);
+            memmoryStatus = imageFile.name.length + contentSize + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', memmoryStatus);
 
         }
         sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
         console.log(savedImageFilesMemory);
         // incrementamos el valor de la memoria
-        console.log(allMemory);
+        console.log(memmoryStatus);
 
 
         savedImageFile.name = file.name;
@@ -724,9 +724,9 @@ function finallyDaletTextFile(fileToDelate) {
                 if (!deletedTextFilesMemory) deletedTextFilesMemory = [];
 
                 // decrementamos el valor de la memoria
-                allMemory = parseInt(memmoryStatus) - delatedFile[0].name.length - delatedFile[0].content.length;
-                sessionStorage.setItem('memmoryStatus', allMemory);
-                console.log(allMemory);
+                memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - delatedFile[0].content.length;
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
+                console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
@@ -762,9 +762,9 @@ function finallyDaletImageFile(fileToDelate) {
                         contentSize++;
                     }
                 });
-                allMemory = parseInt(memmoryStatus) - delatedFile[0].name.length - contentSize;
-                sessionStorage.setItem('memmoryStatus', allMemory);
-                console.log(allMemory);
+                memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - contentSize;
+                sessionStorage.setItem('memmoryStatus', memmoryStatus);
+                console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
@@ -832,21 +832,16 @@ function restoreTextFile(fileToRestore) {
                             if (savedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
                                 // eliminamos el tamaño de la memoria
                                 let replacedFile = savedTextFilesMemory.splice(i, 1);
-                                allMemory = parseInt(memmoryStatus) -
+                                memmoryStatus = parseInt(memmoryStatus) -
                                     replacedFile[i].content.length -
                                     replacedFile[i].name.length;
-                                sessionStorage.setItem('memmoryStatus', allMemory);
+                                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                                 break;
                             }
                         }
                         savedTextFilesMemory.push(restoredFile[0]);
                         sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
                         console.log(savedTextFilesMemory);
-                        // sumamos el tamaño del fichero a la memoria
-                        allMemory = parseInt(memmoryStatus) +
-                            restoredFile[0].content.length +
-                            restoredFile[0].name.length;
-                        sessionStorage.setItem('memmoryStatus', allMemory);
                         // eliminamos el elemento del DOM
                         fileToRestore.nextSibling.remove();
                         fileToRestore.remove();
@@ -865,10 +860,9 @@ function restoreTextFile(fileToRestore) {
         restoreAlert.classList.remove('hiddenObject');
         // añadimos el evento de restaurar fichero
         confirmYes.addEventListener('click', () => {
-
             //buscamos el fichero en la lista de objetos eliminados
             for (let i = 0; i < deletedTextFilesMemory.length; i++) {
-                if (deletedTextFilesMemory[i].name == fileToReplace.childNodes[2].innerText.slice(0, -4)) {
+                if (deletedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
                     let restoredFile = deletedTextFilesMemory.splice(i, 1);
                     sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
                     console.log(restoredFile);
@@ -878,8 +872,8 @@ function restoreTextFile(fileToRestore) {
                     sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
                     console.log(savedTextFilesMemory);
                     // eliminamos el elemento del DOM
-                    fileToReplace.nextSibling.remove();
-                    fileToReplace.remove();
+                    fileToRestore.nextSibling.remove();
+                    fileToRestore.remove();
                     break;
                 }
             }
@@ -946,34 +940,21 @@ function restoreImageFile(fileToRestore) {
                                 let replacedFile = savedImageFilesMemory.splice(i, 1);
                                 // restamos el tamaño del fichero a la memoria
                                 let contentSize = 0;
-                                replacedFile.content.forEach((color) => {
+                                replacedFile[0].content.forEach((color) => {
                                     if (color != "") {
                                         contentSize++;
                                     }
                                 });
-                                allMemory = parseInt(memmoryStatus) -
-                                    replacedFile[i].name.length -
+                                memmoryStatus = parseInt(memmoryStatus) -
+                                    replacedFile[0].name.length -
                                     contentSize;
-                                sessionStorage.setItem('memmoryStatus', allMemory);
+                                sessionStorage.setItem('memmoryStatus', memmoryStatus);
                                 break;
                             }
                         }
                         savedImageFilesMemory.push(restoredFile[0]);
                         sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
                         console.log(savedImageFilesMemory);
-                        // sumamos el tamaño del fichero a la memoria
-                        let contentSize = 0;
-                        restoredFile[0].content.forEach((color) => {
-                            if (color != "") {
-                                contentSize++;
-                            }
-                        });
-                        allMemory = parseInt(memmoryStatus) +
-                            restoredFile[0].name.length +
-                            contentSize;
-                        sessionStorage.setItem('memmoryStatus', allMemory);
-
-
                         // eliminamos el elemento del DOM
                         fileToRestore.nextSibling.remove();
                         fileToRestore.remove();

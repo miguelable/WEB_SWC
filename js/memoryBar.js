@@ -21,12 +21,11 @@ function updateMemoryBar(memmoryStatus) {
     ctx.beginPath();
     ctx.fill();
 
-    // actualizar el parrafo de memoryinfo
-    if (memmoryStatus == null) memmoryStatus = 0;
-    memoryInfo.innerHTML = memmoryStatus + " / 1000 Bytes";
-
-
 }
 
 // Llamada a la función con el valor inicial de la memoria
 updateMemoryBar(memmoryStatus);
+
+// actualizar el parrafo de memoryinfo
+if (memmoryStatus == null) memoryInfo.innerHTML = "0 / 1000 Bytes";
+else memoryInfo.innerHTML = memmoryStatus + " / 1000 Bytes";
