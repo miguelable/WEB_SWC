@@ -1,3 +1,5 @@
+const memoryInfo = document.getElementById('memoryInfo');
+
 const canvas = document.getElementById("memoryBar");
 const ctx = canvas.getContext("2d");
 const min = 0;
@@ -18,6 +20,12 @@ function updateMemoryBar(memmoryStatus) {
     // Dibujar la barra con bordes redondeados
     ctx.beginPath();
     ctx.fill();
+
+    // actualizar el parrafo de memoryinfo
+    if (memmoryStatus == null) memmoryStatus = 0;
+    memoryInfo.innerHTML = memmoryStatus + " / 1000 Bytes";
+
+
 }
 
 // Llamada a la función con el valor inicial de la memoria

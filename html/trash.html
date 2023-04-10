@@ -13,138 +13,33 @@
     <link href="../css/apps/allAppsStyle.css" rel="stylesheet">
     <link href="../css/apps/searchApps/searchAppsStyle.css" rel="stylesheet">
 
-
 </head>
 
 <body class="container">
-    <div id="trashHeader" class="headerContent">
-        <h3 id="trashFileTitle" class="appType">Trash</h3>
-        <button class="closeButton">
+    <div id="searchHeader" class="headerContent">
+        <h3 id="searchFileTitle" class="appType">Trash</h3>
+        <button id="closeSearchButton" class="closeButton">
             <img class="fitImage" src="../img/Close.png" alt="close">
         </button>
     </div>
     <div id="menuHeader">
-        <div id="textShadow" class="shadowForm">
+        <div id="textShadow" class="shadowForm shadowColor">
             <p id="textFileButton" class="menuSpacing">Text files</p>
         </div>
-        <div id="imageShadow" class="shadowForm">
+        <div id="imageShadow" class="shadowForm ">
             <p id="imageFileButton" class="menuSpacing">Image files</p>
         </div>
     </div>
     <div id="mainConent" class="backgroundMain dataContainer overflowStyle">
-        <div class="fileItem fileText">
-            <div class="textContentDiv overflowStyle">
-                <p class="textFormat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.
-                    Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat.
-                </p>
-            </div>
-            <img id="enterInfo1" src="../img/Info.png" alt="Info.png" class="iconFormat">
-            <h5 class="textTitle">Text.txt</h5>
-            <img src="../img/Restore.png" alt="restore.png" class="iconFormat">
-            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
+        <div id="textContainer">
         </div>
-        <div class="fileItem fileText">
-            <div class="InfoContentDiv">
-                <p class="dataContent"><strong>Name:</strong> File1</p>
-                <p class="dataContent"><strong>Extension:</strong> txt</p>
-                <p class="dataContent"><strong>Size:</strong> 150 bytes</p>
-                <p class="dataContent"><strong>Date:</strong> 12:15:25 27/02/2023</p>
-            </div>
-            <img id="exitInfo1" src="../img/Close.png" alt="Info.png" class="iconFormat">
-            <h5 class="textTitle">Text.txt</h5>
-            <img src="../img/Restore.png" alt="restore.png" class="iconFormat">
-            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
+        <div id="imageContainer" class="hiddenInfo">
         </div>
-        <div class="fileItem fileImage">
-            <div class="imageContentDiv centerImage">
-                <div id="imageArea" class="boxLayout">
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                    <div class="box"></div>
-                </div>
-            </div>
-            <img id="enterInfo1" src="../img/Info.png" alt="Info.png" class="iconFormat">
-            <h5 class="textTitle">Image.img</h5>
-            <img src="../img/Restore.png" alt="restore.png" class="iconFormat">
-            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
-        </div>
-        <div class="fileItem fileImage">
-            <div class="InfoContentDiv">
-                <p class="dataContent"><strong>Name:</strong> Image</p>
-                <p class="dataContent"><strong>Extension:</strong> img</p>
-                <p class="dataContent"><strong>Size:</strong> 5 bytes</p>
-                <p class="dataContent"><strong>Date:</strong> 12:15:25 27/02/2023</p>
-            </div>
-            <img id="exitInfo1" src="../img/Close.png" alt="Info.png" class="iconFormat">
-            <h5 class="textTitle">Image.img</h5>
-            <img src="../img/Restore.png" alt="restore.png" class="iconFormat">
-            <img src="../img/Trash.svg" alt="Trash.png" class="iconFormat">
-        </div>
+
     </div>
     <div id="memoryStatus" class="backgroundBottom">
         <canvas id="memoryBar"></canvas>
+        <p id="memoryInfo" class="memoryInfo"></p>
     </div>
     <nav id="barLauncher" class="backgroundBottom">
         <button id="trashButton" class="appButton">
@@ -169,19 +64,19 @@
         <div class="alertBox">
             <p class="nameAlert alertStyle">One file exists whith the same name !</p>
             <div class="alertStyle">
-                <button class="confirmButtonAlert hoverGreen">
+                <button id="replaceNo" class="confirmButtonAlert hoverGreen">
                     <p class="nameAlert goodColor">Change name</p>
                 </button>
-                <button class="confirmButtonAlert hoverRed">
+                <button id="replaceYes" class="confirmButtonAlert hoverRed">
                     <p class="nameAlert badColor">Replace</p>
                 </button>
             </div>
         </div>
     </div>
-    <!-- Alerta de definir nuevo nombre -->
+    <!-- Alerta de definir nombre -->
     <div id="defineNewNameAlert" class="alert hiddenObject">
         <div class="alertBox">
-            <p class="nameAlert alertStyle">New name</p>
+            <p class="nameAlert alertStyle">New Name</p>
             <p class="textAlert hiddenObject">Repeated name</p>
             <div class="alertStyle">
                 <input type="text" id="nameFile" placeholder="exampleName">
@@ -197,10 +92,26 @@
             <p class="nameAlert alertStyle">Delete file</p>
             <p class="textAlert">This file will no longer be available</p>
             <div class="alertStyle">
-                <button class="confirmButtonAlert hoverGreen">
+                <button id="eraseYes" class="confirmButtonAlert hoverGreen">
                     <p class="nameAlert goodColor">Yes</p>
                 </button>
-                <button class="confirmButtonAlert hoverRed">
+                <button id="eraseNo" class="confirmButtonAlert hoverRed">
+                    <p class="nameAlert badColor">No</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Alerta de fichero no guardado al cerrar la ventana -->
+    <div id="restoreAlert" class="alert hiddenObject">
+        <div class="alertBox">
+            <p class="nameAlert alertStyle">Restore File</p>
+            <div class="alertStyle centerAlert">
+                <button id="confirmYes" class="confirmButtonAlert hoverGreen">
+                    <p class="nameAlert goodColor">Yes</p>
+                </button>
+            </div>
+            <div class="alertStyle centerAlert">
+                <button id="confirmNo" class="confirmButtonAlert hoverRed">
                     <p class="nameAlert badColor">No</p>
                 </button>
             </div>
@@ -208,9 +119,9 @@
     </div>
     <script src="../js/pageflow.js" rel="script"></script>
     <script src="../js/alerts.js" rel="script"></script>
-    <script src="../js/memoryBar.js" rel="script"></script>
     <script src="../js/dateHour.js" rel="script"></script>
-
+    <script src="../js/memoryBar.js" rel="script"></script>
+    <script src="../js/trash.js" rel="script"></script>
 </body>
 
 

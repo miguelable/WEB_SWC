@@ -30,6 +30,7 @@
     flex-wrap: wrap;
     /* Alinear el texto en el centro */
     justify-content: center;
+    align-items: center;
 }
 
 
@@ -38,7 +39,7 @@
 .appButton {
     /* Tamaño de los botones */
     width: 4vh;
-    aspect-ratio: 1/1;
+    height: 4vh;
     /* Borde */
     border: none;
     border-radius: 15%;

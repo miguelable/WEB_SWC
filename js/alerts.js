@@ -23,6 +23,13 @@ const eraseNo = document.getElementById('eraseNo');
 
 const deleteFileAlert = document.getElementById('deleteFileAlert');
 
+const lastdeleteFileAlert = document.getElementById('lastdeleteFileAlert');
+const sameNameAlert = document.getElementById('sameNameAlert');
+const defineNewNameAlert = document.getElementById('defineNewNameAlert');
+const restoreAlert = document.getElementById('restoreAlert');
+const replaceYes = document.getElementById('replaceYes');
+const replaceNo = document.getElementById('replaceNo');
+
 let memmoryStatus = sessionStorage.getItem('memmoryStatus');
 
 // objetos de los ficheros que se están editando y no guardados en memoria.
@@ -30,9 +37,7 @@ let savedTextFile = JSON.parse(sessionStorage.getItem("savedTextFile")); //objet
 let savedImageFile = JSON.parse(sessionStorage.getItem("savedImageFile")); //objeto de imagen guardado en memoria.
 
 let savedTextFilesMemory = JSON.parse(sessionStorage.getItem("savedTextFilesMemory")); //objeto de texto guardado en memoria sin METODOS
-let textFilesMemory = []; //array con objetos y METODOS
 let savedImageFilesMemory = JSON.parse(sessionStorage.getItem("savedImageFilesMemory")); //objeto de imagen guardado en memoria sin METODOS
-let imageFilesMemory = [];
 
 let deletedTextFilesMemory = JSON.parse(sessionStorage.getItem("deletedTextFilesMemory")); //objeto de texto guardado en memoria sin METODOS
 let deletedImageFilesMemory = JSON.parse(sessionStorage.getItem("deletedImageFilesMemory")); //objeto de imagen guardado en memoria sin METODOS
@@ -46,19 +51,7 @@ if (paginaActual === "Text Editor") {
         inputName.addEventListener('input', validateTextInputName);
         nameChosen.addEventListener('click', saveCurrentTextFile);
     }
-    if (!savedTextFilesMemory) {
-        savedTextFilesMemory = [];
-        textFilesMemory = [];
-    } else {
-        for (let i = 0; i < savedTextFilesMemory.length; i++) {
-            let file = new fileTextImage('txt');
-            file.name = savedTextFilesMemory[i].name;
-            file.content = savedTextFilesMemory[i].content;
-            file.date = savedTextFilesMemory[i].date;
-            textFilesMemory.push(file);
-        }
-        console.log(textFilesMemory);
-    }
+    if (!savedTextFilesMemory) savedTextFilesMemory = [];
 }
 
 if (paginaActual === "Image Editor") {
@@ -70,37 +63,30 @@ if (paginaActual === "Image Editor") {
         inputName.addEventListener('input', validateImageInputName);
         nameChosen.addEventListener('click', saveCurrentImageFile);
     }
-    if (!savedImageFilesMemory) {
-        savedImageFilesMemory = [];
-        imageFilesMemory = [];
-    } else {
-        for (let i = 0; i < savedImageFilesMemory.length; i++) {
-            let file = new fileTextImage('img');
-            file.name = savedImageFilesMemory[i].name;
-            file.content = savedImageFilesMemory[i].content;
-            file.date = savedImageFilesMemory[i].date;
-            imageFilesMemory.push(file);
-        }
-        console.log(imageFilesMemory);
-    }
+    if (!savedImageFilesMemory) savedImageFilesMemory = [];
 }
 
 function validateTextInputName(event) {
     // console.log(event.target.textLength);
     if (inputName.value.length > 0) {
         inputName.style.border = '2px solid rgba(255, 0, 0, 0)';
-        if (textFilesMemory.length === 0) {
+        if (savedTextFilesMemory.length === 0) {
             nameChosen.classList.remove("hiddenObject");
             //mostramos el nombre y lo que ocupa en bytes
-            fileName.innerText = inputName.value + ".txt";
-            fileSize.innerText = inputName.value.length + " bytes";
+            if (fileName != null || fileSize != null) {
+                fileName.innerText = inputName.value + ".txt";
+                fileSize.innerText = inputName.value.length + " bytes";
+            }
+
         } else {
-            for (let i = 0; i < textFilesMemory.length; i++) {
-                if (inputName.value === textFilesMemory[i].name) {
+            for (let i = 0; i < savedTextFilesMemory.length; i++) {
+                if (inputName.value === savedTextFilesMemory[i].name) {
                     textAlert.classList.remove('hiddenObject');
                     nameChosen.classList.add("hiddenObject");
-                    fileName.innerText = " ";
-                    fileSize.innerText = " ";
+                    if (fileName != null || fileSize != null) {
+                        fileName.innerText = " ";
+                        fileSize.innerText = " ";
+                    }
                     break;
                 } else {
                     //mostramos el nombre y lo que ocupa en bytes
@@ -108,14 +94,18 @@ function validateTextInputName(event) {
                     nameChosen.classList.remove("hiddenObject");
                 }
             }
-            fileName.innerText = inputName.value + ".txt";
-            fileSize.innerText = inputName.value.length + " bytes";
+            if (fileName != null || fileSize != null) {
+                fileName.innerText = inputName.value + ".txt";
+                fileSize.innerText = inputName.value.length + " bytes";
+            }
         }
     } else {
         inputName.style.border = '2px solid rgba(255, 0, 0, 255)';
         nameChosen.classList.add("hiddenObject");
-        fileName.innerText = " ";
-        fileSize.innerText = " ";
+        if (fileName != null || fileSize != null) {
+            fileName.innerText = " ";
+            fileSize.innerText = " ";
+        }
     }
 }
 
@@ -123,18 +113,22 @@ function validateImageInputName(event) {
     // console.log(event.target.textLength);
     if (inputName.value.length > 0) {
         inputName.style.border = '2px solid rgba(255, 0, 0, 0)';
-        if (imageFilesMemory.length === 0) {
+        if (savedImageFilesMemory.length === 0) {
             nameChosen.classList.remove("hiddenObject");
             //mostramos el nombre y lo que ocupa en bytes
-            fileName.innerText = inputName.value + ".png";
-            fileSize.innerText = inputName.value.length + " bytes";
+            if (fileName != null || fileSize != null) {
+                fileName.innerText = inputName.value + ".png";
+                fileSize.innerText = inputName.value.length + " bytes";
+            }
         } else {
-            for (let i = 0; i < imageFilesMemory.length; i++) {
-                if (inputName.value === imageFilesMemory[i].name) {
+            for (let i = 0; i < savedImageFilesMemory.length; i++) {
+                if (inputName.value === savedImageFilesMemory[i].name) {
                     textAlert.classList.remove('hiddenObject');
                     nameChosen.classList.add("hiddenObject");
-                    fileName.innerText = " ";
-                    fileSize.innerText = " ";
+                    if (fileName != null || fileSize != null) {
+                        fileName.innerText = " ";
+                        fileSize.innerText = " ";
+                    }
                     break;
                 } else {
                     //mostramos el nombre y lo que ocupa en bytes
@@ -142,14 +136,18 @@ function validateImageInputName(event) {
                     nameChosen.classList.remove("hiddenObject");
                 }
             }
-            fileName.innerText = inputName.value + ".png";
-            fileSize.innerText = inputName.value.length + " bytes";
+            if (fileName != null || fileSize != null) {
+                fileName.innerText = inputName.value + ".png";
+                fileSize.innerText = inputName.value.length + " bytes";
+            }
         }
     } else {
         inputName.style.border = '2px solid rgba(255, 0, 0, 255)';
         nameChosen.classList.add("hiddenObject");
-        fileName.innerText = " ";
-        fileSize.innerText = " ";
+        if (fileName != null || fileSize != null) {
+            fileName.innerText = " ";
+            fileSize.innerText = " ";
+        }
     }
 }
 
@@ -183,8 +181,28 @@ function saveTextFileMemory() {
         savedTextFile.date = new Date();
         console.log(savedTextFile);
         sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
-        if (saveFile) saveFile.setAttribute("style", "filter: invert(100%);");
+        //comprobamos que no exista otro texto con el mismo nombre
+        let exist = false;
+        for (let i = 0; i < savedTextFilesMemory.length; i++) {
+            if (savedTextFilesMemory[i].name == savedTextFile.name) {
+                exist = true;
+                //calculamos la diferencia en memoria
+                let allMemory = savedTextFile.content.length - savedTextFilesMemory[i].content.length + parseInt(memmoryStatus);
+                sessionStorage.setItem('memmoryStatus', allMemory);
+                //si existe lo sustituimos
+                savedTextFilesMemory[i] = savedTextFile;
+                break;
+            }
+        }
+        if (!exist) {
+            savedTextFilesMemory.push(savedTextFile);
+            allMemory = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', allMemory);
 
+        }
+        sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+
+        if (saveFile) saveFile.setAttribute("style", "filter: invert(100%);");
         return true;
     } else {
         console.log('no podemos guardar');
@@ -200,8 +218,10 @@ function saveImageFileMemory() {
     // tenenmos que comprobar que el alrchivo entra en memoria antes de guardar
     let sizeImage = 0;
     for (let i = 0; i < 64; i++) {
-        let color = savedImageFile.contentNotSaved[i];
-        if (color != "") sizeImage++;
+        if (savedImageFile.contentNotSaved) {
+            let color = savedImageFile.contentNotSaved[i];
+            if (color != "") sizeImage++;
+        }
     }
     if (!memmoryStatus) memmoryStatus = 0;
     if (savedImageFile.contentNotSaved == undefined) savedImageFile.contentNotSaved = [];
@@ -211,6 +231,39 @@ function saveImageFileMemory() {
         savedImageFile.date = new Date();
         console.log(savedImageFile);
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+        //comprobamos que no exista otro texto con el mismo nombre
+        let exist = false;
+        for (let i = 0; i < savedImageFilesMemory.length; i++) {
+            if (savedImageFilesMemory[i].name == savedImageFile.name) {
+                exist = true;
+                // calculamos la diferencia de memoria
+                let contentSize = 0;
+                savedImageFile.content.forEach((color) => {
+                    if (color != "") {
+                        contentSize++;
+                    }
+                });
+                let allMemory = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
+                sessionStorage.setItem('memmoryStatus', allMemory);
+                //si existe lo sustituimos
+                savedImageFilesMemory[i] = savedImageFile;
+                break;
+            }
+        }
+        if (!exist) {
+            savedImageFilesMemory.push(savedImageFile);
+            // incrementamos el valor de la memoria
+            let contentSize = 0;
+            savedImageFile.content.forEach((color) => {
+                if (color != "") {
+                    contentSize++;
+                }
+            });
+            allMemory = savedImageFile.name.length + contentSize + parseInt(memmoryStatus);
+            sessionStorage.setItem('memmoryStatus', allMemory);
+        }
+        sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
+        console.log(savedImageFilesMemory);
         if (saveFile) saveFile.setAttribute("style", "filter: invert(100%);");
         return true;
     } else {
@@ -654,4 +707,315 @@ function imageFileNotSaved(file) {
         window.location.href = 'imageEditor.html';
     });
     noneSaveAlert.classList.remove('hiddenObject');
+}
+
+function finallyDaletTextFile(fileToDelate) {
+    console.log(fileToDelate)
+    console.log(fileToDelate.childNodes[2].innerText.slice(0, -4));
+    lastdeleteFileAlert.classList.remove('hiddenObject');
+    eraseYes.addEventListener('click', () => {
+        //buscamos el fichero en la lista de objetos guardados
+        for (let i = 0; i < deletedTextFilesMemory.length; i++) {
+            if (deletedTextFilesMemory[i].name == fileToDelate.childNodes[2].innerText.slice(0, -4)) {
+                let delatedFile = deletedTextFilesMemory.splice(i, 1);
+                sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
+                console.log(delatedFile);
+                //añadimos el elemento eliminado al array de elementos eliminados
+                if (!deletedTextFilesMemory) deletedTextFilesMemory = [];
+
+                // decrementamos el valor de la memoria
+                allMemory = parseInt(memmoryStatus) - delatedFile[0].name.length - delatedFile[0].content.length;
+                sessionStorage.setItem('memmoryStatus', allMemory);
+                console.log(allMemory);
+                // eliminamos el elemento del DOM
+                fileToDelate.nextSibling.remove();
+                fileToDelate.remove();
+                break;
+            }
+        }
+        lastdeleteFileAlert.classList.add('hiddenObject');
+        location.reload();
+    });
+    eraseNo.addEventListener('click', () => {
+        lastdeleteFileAlert.classList.add('hiddenObject');
+    });
+}
+
+function finallyDaletImageFile(fileToDelate) {
+    console.log(fileToDelate)
+    console.log(fileToDelate.childNodes[2].innerText.slice(0, -4));
+    lastdeleteFileAlert.classList.remove('hiddenObject');
+    eraseYes.addEventListener('click', () => {
+        //buscamos el fichero en la lista de objetos guardados
+        for (let i = 0; i < deletedImageFilesMemory.length; i++) {
+            if (deletedImageFilesMemory[i].name == fileToDelate.childNodes[2].innerText.slice(0, -4)) {
+                let delatedFile = deletedImageFilesMemory.splice(i, 1);
+                sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
+                console.log(delatedFile);
+                //añadimos el elemento eliminado al array de elementos eliminados
+                if (!deletedImageFilesMemory) deletedImageFilesMemory = [];
+
+                // decrementamos el valor de la memoria
+                let contentSize = 0;
+                delatedFile[0].content.forEach((color) => {
+                    if (color != "") {
+                        contentSize++;
+                    }
+                });
+                allMemory = parseInt(memmoryStatus) - delatedFile[0].name.length - contentSize;
+                sessionStorage.setItem('memmoryStatus', allMemory);
+                console.log(allMemory);
+                // eliminamos el elemento del DOM
+                fileToDelate.nextSibling.remove();
+                fileToDelate.remove();
+                break;
+            }
+        }
+        lastdeleteFileAlert.classList.add('hiddenObject');
+        location.reload();
+    });
+    eraseNo.addEventListener('click', () => {
+        lastdeleteFileAlert.classList.add('hiddenObject');
+    });
+}
+
+function restoreTextFile(fileToRestore) {
+    console.log(fileToRestore);
+    console.log(fileToRestore.childNodes[2].innerText.slice(0, -4));
+    // comprobamos que el nombre del texto no coincida con los guardados en memoria
+    let exist = false;
+    for (let i = 0; i < savedTextFilesMemory.length; i++) {
+        if (savedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+            exist = true;
+            // mostramos la alerta de fichero con el mismo nombr
+            sameNameAlert.classList.remove('hiddenObject');
+            replaceNo.addEventListener('click', () => {
+                sameNameAlert.classList.add('hiddenObject');
+                defineNewNameAlert.classList.remove('hiddenObject');
+                inputName.addEventListener('input', validateTextInputName);
+                nameChosen.addEventListener('click', () => {
+                    let newName = inputName.value;
+                    console.log(newName);
+                    //buscamos el fichero en la lista de objetos eliminados
+                    for (let i = 0; i < deletedTextFilesMemory.length; i++) {
+                        if (deletedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                            let restoredFile = deletedTextFilesMemory.splice(i, 1);
+                            sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
+                            console.log(restoredFile);
+                            //añadimos el elemento eliminado al array de elementos creados
+                            if (!savedTextFilesMemory) savedTextFilesMemory = [];
+                            restoredFile[0].name = newName;
+                            savedTextFilesMemory.push(restoredFile[0]);
+                            sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+                            console.log(savedTextFilesMemory);
+                            // eliminamos el elemento del DOM
+                            fileToRestore.nextSibling.remove();
+                            fileToRestore.remove();
+                            break;
+                        }
+                    }
+                    defineNewNameAlert.classList.add('hiddenObject');
+                    location.reload();
+                });
+            });
+            replaceYes.addEventListener('click', () => {
+                //buscamos el fichero en la lista de objetos eliminados
+                for (let i = 0; i < deletedTextFilesMemory.length; i++) {
+                    if (deletedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                        let restoredFile = deletedTextFilesMemory.splice(i, 1);
+                        sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
+                        console.log(restoredFile);
+                        //reemplazamos el elemento eliminado al array de elementos creados  
+                        if (!savedTextFilesMemory) savedTextFilesMemory = [];
+                        // buscamos el fichero a reemplazar
+                        for (let i = 0; i < savedTextFilesMemory.length; i++) {
+                            if (savedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                                // eliminamos el tamaño de la memoria
+                                let replacedFile = savedTextFilesMemory.splice(i, 1);
+                                allMemory = parseInt(memmoryStatus) -
+                                    replacedFile[i].content.length -
+                                    replacedFile[i].name.length;
+                                sessionStorage.setItem('memmoryStatus', allMemory);
+                                break;
+                            }
+                        }
+                        savedTextFilesMemory.push(restoredFile[0]);
+                        sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+                        console.log(savedTextFilesMemory);
+                        // sumamos el tamaño del fichero a la memoria
+                        allMemory = parseInt(memmoryStatus) +
+                            restoredFile[0].content.length +
+                            restoredFile[0].name.length;
+                        sessionStorage.setItem('memmoryStatus', allMemory);
+                        // eliminamos el elemento del DOM
+                        fileToRestore.nextSibling.remove();
+                        fileToRestore.remove();
+
+                        sameNameAlert.classList.add('hiddenObject');
+                        location.reload();
+                        break;
+                    }
+
+                }
+            });
+        }
+    }
+    if (!exist) {
+        // mostramos la alerta de restaurar fichero
+        restoreAlert.classList.remove('hiddenObject');
+        // añadimos el evento de restaurar fichero
+        confirmYes.addEventListener('click', () => {
+
+            //buscamos el fichero en la lista de objetos eliminados
+            for (let i = 0; i < deletedTextFilesMemory.length; i++) {
+                if (deletedTextFilesMemory[i].name == fileToReplace.childNodes[2].innerText.slice(0, -4)) {
+                    let restoredFile = deletedTextFilesMemory.splice(i, 1);
+                    sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
+                    console.log(restoredFile);
+                    //añadimos el elemento eliminado al array de elementos creados
+                    if (!savedTextFilesMemory) savedTextFilesMemory = [];
+                    savedTextFilesMemory.push(restoredFile[0]);
+                    sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+                    console.log(savedTextFilesMemory);
+                    // eliminamos el elemento del DOM
+                    fileToReplace.nextSibling.remove();
+                    fileToReplace.remove();
+                    break;
+                }
+            }
+            restoreAlert.classList.add('hiddenObject');
+            location.reload();
+        });
+        confirmNo.addEventListener('click', () => {
+            restoreAlert.classList.add('hiddenObject');
+        });
+    }
+}
+
+function restoreImageFile(fileToRestore) {
+    console.log(fileToRestore);
+    console.log(fileToRestore.childNodes[2].innerText.slice(0, -4));
+    // comprobamos que el nombre del texto no coincida con los guardados en memoria
+    let exist = false;
+    for (let i = 0; i < savedImageFilesMemory.length; i++) {
+        if (savedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+            exist = true;
+            // mostramos la alerta de fichero con el mismo nombr
+            sameNameAlert.classList.remove('hiddenObject');
+            replaceNo.addEventListener('click', () => {
+                sameNameAlert.classList.add('hiddenObject');
+                defineNewNameAlert.classList.remove('hiddenObject');
+                inputName.addEventListener('input', validateImageInputName);
+                nameChosen.addEventListener('click', () => {
+                    let newName = inputName.value;
+                    console.log(newName);
+                    //buscamos el fichero en la lista de objetos eliminados
+                    for (let i = 0; i < deletedImageFilesMemory.length; i++) {
+                        if (deletedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                            let restoredFile = deletedImageFilesMemory.splice(i, 1);
+                            sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
+                            console.log(restoredFile);
+                            //añadimos el elemento eliminado al array de elementos creados
+                            if (!savedImageFilesMemory) savedImageFilesMemory = [];
+                            restoredFile[0].name = newName;
+                            savedImageFilesMemory.push(restoredFile[0]);
+                            sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
+                            console.log(savedImageFilesMemory);
+                            // eliminamos el elemento del DOM
+                            fileToRestore.nextSibling.remove();
+                            fileToRestore.remove();
+                            break;
+                        }
+                    }
+                    defineNewNameAlert.classList.add('hiddenObject');
+                    location.reload();
+                });
+            });
+            replaceYes.addEventListener('click', () => {
+                //buscamos el fichero en la lista de objetos eliminados
+                for (let i = 0; i < deletedImageFilesMemory.length; i++) {
+                    if (deletedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                        let restoredFile = deletedImageFilesMemory.splice(i, 1);
+                        sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
+                        console.log(restoredFile);
+                        //reemplazamos el elemento eliminado al array de elementos creados  
+                        if (!savedImageFilesMemory) savedImageFilesMemory = [];
+                        // buscamos el fichero a reemplazar
+                        for (let i = 0; i < savedImageFilesMemory.length; i++) {
+                            if (savedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                                let replacedFile = savedImageFilesMemory.splice(i, 1);
+                                // restamos el tamaño del fichero a la memoria
+                                let contentSize = 0;
+                                replacedFile.content.forEach((color) => {
+                                    if (color != "") {
+                                        contentSize++;
+                                    }
+                                });
+                                allMemory = parseInt(memmoryStatus) -
+                                    replacedFile[i].name.length -
+                                    contentSize;
+                                sessionStorage.setItem('memmoryStatus', allMemory);
+                                break;
+                            }
+                        }
+                        savedImageFilesMemory.push(restoredFile[0]);
+                        sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
+                        console.log(savedImageFilesMemory);
+                        // sumamos el tamaño del fichero a la memoria
+                        let contentSize = 0;
+                        restoredFile[0].content.forEach((color) => {
+                            if (color != "") {
+                                contentSize++;
+                            }
+                        });
+                        allMemory = parseInt(memmoryStatus) +
+                            restoredFile[0].name.length +
+                            contentSize;
+                        sessionStorage.setItem('memmoryStatus', allMemory);
+
+
+                        // eliminamos el elemento del DOM
+                        fileToRestore.nextSibling.remove();
+                        fileToRestore.remove();
+
+                        sameNameAlert.classList.add('hiddenObject');
+                        location.reload();
+                        break;
+                    }
+
+                }
+            });
+        }
+    }
+    if (!exist) {
+        // mostramos la alerta de restaurar fichero
+        restoreAlert.classList.remove('hiddenObject');
+        // añadimos el evento de restaurar fichero
+        confirmYes.addEventListener('click', () => {
+
+            //buscamos el fichero en la lista de objetos eliminados
+            for (let i = 0; i < deletedImageFilesMemory.length; i++) {
+                if (deletedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                    let restoredFile = deletedImageFilesMemory.splice(i, 1);
+                    sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
+                    console.log(restoredFile);
+                    //añadimos el elemento eliminado al array de elementos creados
+                    if (!savedImageFilesMemory) savedImageFilesMemory = [];
+                    savedImageFilesMemory.push(restoredFile[0]);
+                    sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
+                    console.log(savedImageFilesMemory);
+                    // eliminamos el elemento del DOM
+                    fileToRestore.nextSibling.remove();
+                    fileToRestore.remove();
+                    break;
+                }
+            }
+            restoreAlert.classList.add('hiddenObject');
+            location.reload();
+        });
+        confirmNo.addEventListener('click', () => {
+            restoreAlert.classList.add('hiddenObject');
+        });
+    }
+
 }
