@@ -16,4 +16,5 @@ function updateDateTime() {
 
 // Actualizar la fecha y hora cada 10 segundos (10000 milisegundos)
 updateDateTime();
+// funcion periódica
 setInterval(updateDateTime, 10000);

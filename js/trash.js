@@ -1,23 +1,28 @@
+// Seleccionar los elementos del DOM que se van a utilizar
 const textInfo = document.querySelector('#textShadow');
 const imageInfo = document.querySelector('#imageShadow');
 const textContainer = document.getElementById('textContainer');
 const imageContainer = document.getElementById('imageContainer');
 
+// Obtener el estado de la ventana de texto o imagen guardado en sessionStorage
 let isImageOpen = sessionStorage.getItem('isImageOpen');
 
+// Si hay archivos de texto eliminados, agregarlos al contenedor
 if (deletedTextFilesMemory) {
     for (let i = 0; i < deletedTextFilesMemory.length; i++) {
         addTextFileToContainer(deletedTextFilesMemory[i]);
     }
 }
 
+// Si hay archivos de imagen eliminados, agregarlos al contenedor
 if (deletedImageFilesMemory) {
     for (let i = 0; i < deletedImageFilesMemory.length; i++) {
         addImageFileToContainer(deletedImageFilesMemory[i]);
     }
 }
 
-console.log(isImageOpen);
+// Si la ventana de imagen estaba abierta antes de la última sesión, 
+// mostrar la vista de imagen y ocultamos la de texto
 if (isImageOpen == "true") {
     textContainer.classList.add('hiddenInfo');
     imageContainer.classList.remove('hiddenInfo');
@@ -84,21 +89,25 @@ function addTextFileToContainer(file) {
     var infoContentDiv = document.createElement('div');
     infoContentDiv.className = "InfoContentDiv"
 
-    // Crear los elementos de texto con la información del archivo
+    // Crear elemento de información de nombre
     var fileNameP = document.createElement('p');
     fileNameP.className = "dataContent";
     fileNameP.innerHTML = '<strong>Name:</strong> ' + file.name;
 
+    // Crear elemento de información de extensión
     var fileExtensionP = document.createElement('p');
     fileExtensionP.className = "dataContent"
     fileExtensionP.innerHTML = '<strong>Extension:</strong> ' + "txt";
 
-
+    // Calcular tamaño del archivo
     let fileSize = file.content.length + file.name.length;
+
+    // Crea elemento de información de tamaño
     var fileSizeP = document.createElement('p');
     fileSizeP.className = "dataContent";
     fileSizeP.innerHTML = '<strong>Size:</strong> ' + fileSize + " bytes";
 
+    // Crear elemento de información de fecha
     const dateObj = new Date(file.date);
     var fileDateP = document.createElement('p');
     fileDateP.className = "dataContent";
@@ -203,21 +212,23 @@ function addImageFileToContainer(file) {
     var infoContentDiv = document.createElement('div');
     infoContentDiv.className = "InfoContentDiv"
 
-    // Crear los elementos de texto con la información del archivo
+    // Crear elemento de información de nombre
     var fileNameP = document.createElement('p');
     fileNameP.className = "dataContent";
     fileNameP.innerHTML = '<strong>Name:</strong> ' + file.name;
 
+    // Crear elemento de información de extensión
     var fileExtensionP = document.createElement('p');
     fileExtensionP.className = "dataContent"
     fileExtensionP.innerHTML = '<strong>Extension:</strong> ' + "img";
 
-
+    // Calcular tamaño del archivo
     let fileSize = file.content.length + file.name.length;
     var fileSizeP = document.createElement('p');
     fileSizeP.className = "dataContent";
     fileSizeP.innerHTML = '<strong>Size:</strong> ' + fileSize + " bytes";
 
+    // Crear elemento de información de fecha
     const dateObj = new Date(file.date);
     var fileDateP = document.createElement('p');
     fileDateP.className = "dataContent";
@@ -257,7 +268,8 @@ function addImageFileToContainer(file) {
 
 }
 
-// cuando pulsamos el boton de textFiles mostramos los ficheros de texto
+// cuando pulsamos el boton de textFiles mostramos los ficheros de texto y 
+// ocultamos los ficheros de imagen
 textInfo.addEventListener('click', () => {
     textContainer.classList.remove('hiddenInfo');
     imageContainer.classList.add('hiddenInfo');
@@ -268,6 +280,7 @@ textInfo.addEventListener('click', () => {
 });
 
 // cuando pulsamos el boton de imageFiles mostramos los ficheros de imagen
+// y ocultamos los ficheros de texto
 imageInfo.addEventListener('click', () => {
     textContainer.classList.add('hiddenInfo');
     imageContainer.classList.remove('hiddenInfo');
@@ -277,20 +290,23 @@ imageInfo.addEventListener('click', () => {
     sessionStorage.setItem('isImageOpen', isImageOpen);
 });
 
+// Seleccionar todos los elementos del DOM creados que se van a utilizar
 const infoImg = document.querySelectorAll('.imgIcon');
 const exitInfoImg = document.querySelectorAll('.closeIcon');
+// Boton de eliminar texto o imagen
 const delateText = document.querySelectorAll('.trashTxtIcon');
 const delateImg = document.querySelectorAll('.trashImgIcon');
+// Boton de restaurar texto o imagen
 const restoreText = document.querySelectorAll('.restoreTextIcon');
 const restoreImg = document.querySelectorAll('.restoreImageIcon');
 
+// Contenedores de texto e imagen
 const fileText = document.querySelectorAll('.fileText');
 const fileTextInfo = document.querySelectorAll('.fileTextInfo');
-
 const fileImg = document.querySelectorAll('.fileImage');
 const fileImgInfo = document.querySelectorAll('.fileImgInfo');
 
-
+// Asignamos los eventos a los elementos extraidos del DOM
 for (let i = 0; i < infoImg.length; i++) {
     // cuando pulsamos el boton de info mostramos la informacion del fichero
     infoImg[i].addEventListener('click', () => {
@@ -302,25 +318,27 @@ for (let i = 0; i < infoImg.length; i++) {
         infoImg[i].parentNode.classList.remove('hiddenInfo');
         infoImg[i].parentNode.nextSibling.classList.add('hiddenInfo');
     });
-    // cuando pulsamos el boton de eliminar texto
+    // cuando pulsamos el boton de eliminar texto llamamos a la función de eliminar definitivamente
+    // mostrando previamente la alerta
     if (delateText[i]) {
         delateText[i].addEventListener('click', () => {
             finallyDaletTextFile(delateText[i].parentNode);
         });
     }
-    // cuando pulsamos el boton de eliminar imagen
+    // cuando pulsamos el boton de eliminar imagen llamamos a la función de eliminar definitivamente
+    // mostrando previamente la alerta
     if (delateImg[i]) {
         delateImg[i].addEventListener('click', () => {
             finallyDaletImageFile(delateImg[i].parentNode);
         });
     }
-    // cuando pulsamos el boton de restaurar texto
+    // cuando pulsamos el boton de restaurar texto o imagen llamamos a la función de restaurar fichero 
+    // de texto o imagen
     if (restoreText[i]) {
         restoreText[i].addEventListener('click', () => {
             restoreTextFile(fileText[i]);
         });
     }
-    // cuando pulsamos el boton de restaurar imagen
     if (restoreImg[i]) {
         restoreImg[i].addEventListener('click', () => {
             restoreImageFile(fileImg[i]);
@@ -328,39 +346,24 @@ for (let i = 0; i < infoImg.length; i++) {
     }
 }
 
-//asignamos a cada objeto de text un eventlistener de doble click tanto a la cara principal como a la de info
+// asignamos a cada objeto de text o imagen  un eventlistener de doble click tanto a la cara principal como a 
+// la de info que permitirá restaurar el fichero
 for (let i = 0; i < fileText.length; i++) {
     fileText[i].addEventListener('dblclick', () => {
         restoreTextFile(fileText[i]);
     });
-}
-for (let i = 0; i < fileText.length; i++) {
     fileTextInfo[i].addEventListener('dblclick', () => {
         restoreTextFile(fileText[i]);
     });
 }
-
-
-//asignamos a cada objeto de imagen un eventilistener de doble click tant a la cara principal como a la de info
 for (let i = 0; i < fileImg.length; i++) {
     fileImg[i].addEventListener('dblclick', () => {
         restoreImageFile(fileImg[i]);
     });
-}
-for (let i = 0; i < fileImgInfo.length; i++) {
     fileImgInfo[i].addEventListener('dblclick', () => {
         restoreImageFile(fileImg[i]);
     });
 }
 
-function openTextFile(file) {
-    //abrimos el fichero
-    savedTextFile.name = file.name;
-    savedTextFile.content = file.content;
-    savedTextFile.contentNotSaved = file.content;
-    sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
-    // nos dirigimos a la pagina de editar ficheros
-    window.location.href = 'textEditor.html';
-}
-
+// Al puslar el boton volvemos a la pagina previamente abierta.
 closeButton.addEventListener('click', previousPage);

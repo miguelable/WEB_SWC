@@ -1,5 +1,7 @@
+// parrafo de información del tamaño utilizado de la memoria
 const memoryInfo = document.getElementById('memoryInfo');
 
+// estructura de canvas
 const canvas = document.getElementById("memoryBar");
 const ctx = canvas.getContext("2d");
 const min = 0;
@@ -27,5 +29,8 @@ function updateMemoryBar(memmoryStatus) {
 updateMemoryBar(memmoryStatus);
 
 // actualizar el parrafo de memoryinfo
-if (memmoryStatus == null) memoryInfo.innerHTML = "0 / 1000 Bytes";
-else memoryInfo.innerHTML = memmoryStatus + " / 1000 Bytes";
+if (memmoryStatus == null || memmoryStatus < 0) {
+    memoryInfo.innerHTML = "0 / 1000 Bytes";
+    memmoryStatus = 0;
+    sessionStorage.setItem('memmoryStatus', memmoryStatus);
+} else memoryInfo.innerHTML = memmoryStatus + " / 1000 Bytes";

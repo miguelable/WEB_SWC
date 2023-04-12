@@ -1,316 +1,344 @@
-const fileName = document.querySelector("#fileName"); // nombre que aparece junto al editor de texto/imagen
-const fileSize = document.querySelector("#fileSize"); // tamaño del archivo que aparece junto al editor de texto/imagen
+// Escturctura del objeto que tendrán los fichero de texto o imagen
+class fileTextImage {
+    constructor(extension) {
+        this.name = "";
+        this.content = "";
+        this.date = "";
+        this.extension = extension;
+    }
+}
 
-const saveFile = document.getElementById('saveFile'); //boton de guardar documento.
-const textArea = document.getElementById('textArea'); //Area donde se introduce el texto.
-const imageArea = document.getElementById('imageArea'); //Area donde se introduce la imagen.
+// extraemos los elementos del DOM que usaremos para las alertas
+// nombre que aparece junto al editor de texto/imagen (parte inferior izquierda)
+const fileName = document.querySelector("#fileName");
+// tamaño del archivo que aparece junto al editor de texto/imagen (parte inferior derecha)
+const fileSize = document.querySelector("#fileSize");
+
+//boton de guardar documento.
+const saveFile = document.getElementById('saveFile');
+//Area donde se introduce el texto.
+const textArea = document.getElementById('textArea');
+//Area donde se introduce la imagen.
+const imageArea = document.getElementById('imageArea');
+// cajas que podrán ser pintadas
 let boxes = [];
 if (imageArea) boxes = Array.from(imageArea.children);
 
-const defineNameAlert = document.querySelector('#defineNameAlert'); // alerta que aparece cuando no se ha introducido un nombre
-const inputName = document.querySelector('#nameFile'); // texto que se introduce al poner el nombre
-const nameChosen = document.querySelector('#nameChosen'); // boton para guardar el nombre y cerrar la alerta.
+// alerta que aparece cuando no se ha introducido un nombre
+const defineNameAlert = document.querySelector('#defineNameAlert');
+// texto que se introduce al poner el nombre
+const inputName = document.querySelector('#nameFile');
+// boton para guardar el nombre y cerrar la alerta.
+const nameChosen = document.querySelector('#nameChosen');
+// texto que aparece en rojo cuando el nombre se repite
 const textAlert = document.querySelector('.textAlert');
 
+// alerta cuando se quiere guardar un fichero que ocupa más de lo que está disponible
 const bigFileAlert = document.getElementById('bigFileAlert');
+// boton para volver al fichero despúes de mostrar la alerta de fichero grande
 const returnToText = document.getElementById('returnToText');
 
+// alerta cuando se quiere cerrar el fichero y no se ha guardado
 const noneSaveAlert = document.getElementById('noneSaveAlert');
+// boton para confirmar que se quiere guardar
 const confirmYes = document.getElementById('confirmYes');
+// boton para confirmar que no se quiere guardar
 const confirmNo = document.getElementById('confirmNo');
+
+// alerta cuando se quiere borrar un fichero
+const deleteFileAlert = document.getElementById('deleteFileAlert');
+// boton para confirmar que se quiere borrar
 const eraseYes = document.getElementById('eraseYes');
+// boton para confirmar que no se quiere borrar
 const eraseNo = document.getElementById('eraseNo');
 
-const deleteFileAlert = document.getElementById('deleteFileAlert');
-
+// alerta cuando se quiere borrar el fichero definitivamente
+// en esta alerta se usan los botones de eraseYes y eraseNo
 const lastdeleteFileAlert = document.getElementById('lastdeleteFileAlert');
+// alerta de querer restaurar un fichero que ya existe
 const sameNameAlert = document.getElementById('sameNameAlert');
-const defineNewNameAlert = document.getElementById('defineNewNameAlert');
-const restoreAlert = document.getElementById('restoreAlert');
+// boton que permite reemplazar el fichero con el mismo nombre
 const replaceYes = document.getElementById('replaceYes');
+// boton que permite cambiar el nombre del fichero que se va a restaurar
 const replaceNo = document.getElementById('replaceNo');
+// alerta que permite cambiar de nombre al fichero que se va a restaurar
+const defineNewNameAlert = document.getElementById('defineNewNameAlert');
+// alerta que permite restaurar un fichero borrado (nombre no existe en los fichero ya existentes)
+const restoreAlert = document.getElementById('restoreAlert');
 
-memmoryStatus = sessionStorage.getItem('memmoryStatus');
+// valor de la memoria utilizada
+let memmoryStatus = sessionStorage.getItem('memmoryStatus');
+if (!memmoryStatus) memmoryStatus = 0;
 
 // objetos de los ficheros que se están editando y no guardados en memoria.
-let savedTextFile = JSON.parse(sessionStorage.getItem("savedTextFile")); //objeto de texto guardado en memoria. SIN METODOS
-let savedImageFile = JSON.parse(sessionStorage.getItem("savedImageFile")); //objeto de imagen guardado en memoria.
+//objeto de texto guardado en memoria.
+let savedTextFile = JSON.parse(sessionStorage.getItem("savedTextFile"));
+//objeto de imagen guardado en memoria.
+let savedImageFile = JSON.parse(sessionStorage.getItem("savedImageFile"));
 
-let savedTextFilesMemory = JSON.parse(sessionStorage.getItem("savedTextFilesMemory")); //objeto de texto guardado en memoria sin METODOS
-let savedImageFilesMemory = JSON.parse(sessionStorage.getItem("savedImageFilesMemory")); //objeto de imagen guardado en memoria sin METODOS
+// arrray con los objetos de texto guardado en memoria
+let savedTextFilesMemory = JSON.parse(sessionStorage.getItem("savedTextFilesMemory"));
+// arrray con los objetos de imagen guardado en memoria
+let savedImageFilesMemory = JSON.parse(sessionStorage.getItem("savedImageFilesMemory"));
 
-let deletedTextFilesMemory = JSON.parse(sessionStorage.getItem("deletedTextFilesMemory")); //objeto de texto guardado en memoria sin METODOS
-let deletedImageFilesMemory = JSON.parse(sessionStorage.getItem("deletedImageFilesMemory")); //objeto de imagen guardado en memoria sin METODOS
+// array de objetos de ficheros de text que se han borrado de la memoria.
+let deletedTextFilesMemory = JSON.parse(sessionStorage.getItem("deletedTextFilesMemory"));
+// array de objetos de fichero de imagen que se han borrado de la memoria.
+let deletedImageFilesMemory = JSON.parse(sessionStorage.getItem("deletedImageFilesMemory"));
 
+// Si estamos en la pagina de editor de texto
 if (paginaActual === "Text Editor") {
-    saveFile.addEventListener('click', saveTextFileMemory);
+    // si no hay fichero de texto guardado en memoria, se crea un objeto vacio
     if (!savedTextFile || !savedTextFile.name) {
-        console.log('texto no definido');
         savedTextFile = {};
         defineNameAlert.classList.remove("hiddenObject");
+        // validación de que el nombre está permitido (no es nulo ni se repite)
         inputName.addEventListener('input', validateTextInputName);
+        // se guarda el nombre del fichero y se cierra la alerta
         nameChosen.addEventListener('click', saveCurrentTextFile);
     }
+    // si no hay array de ficheros de texto guardados en memoria, se crea un array vacio
     if (!savedTextFilesMemory) savedTextFilesMemory = [];
+    // llamamos a la función de guardar texto si se pulsa en el icono de guardar
+    saveFile.addEventListener('click', saveTextFileMemory);
 }
 
+// Si estamos en la pagina de editor de imagen
 if (paginaActual === "Image Editor") {
-    saveFile.addEventListener('click', saveImageFileMemory);
+    // si no hay fichero de imagen guardado en memoria, se crea un objeto vacío
     if (!savedImageFile || !savedImageFile.name) {
-        console.log('imagen no definida');
         savedImageFile = {};
         defineNameAlert.classList.remove("hiddenObject");
+        // validación de que el nombre está permitido (no es nulo ni se repite)
         inputName.addEventListener('input', validateImageInputName);
+        // se guarda el nombre del fichero y se cierra la alerta
         nameChosen.addEventListener('click', saveCurrentImageFile);
     }
+    // si no hay array de ficheros de imagen guardados en memoria, se crea un array vacio
     if (!savedImageFilesMemory) savedImageFilesMemory = [];
+    // llamamos a la función de guardar imagen si se pulsa en el icono de guardar
+    saveFile.addEventListener('click', saveImageFileMemory);
 }
 
-function validateTextInputName(event) {
-    // console.log(event.target.textLength);
+// valida si el nombre del fichero de texto no esta repetido o es nulo
+function validateTextInputName() {
+    // si el nombre no es nulo se comprueba que no se repita
     if (inputName.value.length > 0) {
         inputName.style.border = '2px solid rgba(255, 0, 0, 0)';
         if (savedTextFilesMemory.length === 0) {
             nameChosen.classList.remove("hiddenObject");
-            //mostramos el nombre y lo que ocupa en bytes
-            if (fileName != null || fileSize != null) {
-                fileName.innerText = inputName.value + ".txt";
-                fileSize.innerText = inputName.value.length + " bytes";
-            }
-
         } else {
             for (let i = 0; i < savedTextFilesMemory.length; i++) {
                 if (inputName.value === savedTextFilesMemory[i].name) {
+                    // mostramos la alerta de nombre repetido
                     textAlert.classList.remove('hiddenObject');
                     nameChosen.classList.add("hiddenObject");
-                    if (fileName != null || fileSize != null) {
-                        fileName.innerText = " ";
-                        fileSize.innerText = " ";
-                    }
                     break;
                 } else {
-                    //mostramos el nombre y lo que ocupa en bytes
+                    // quitamos la alerta de nombre repetido
                     textAlert.classList.add('hiddenObject');
                     nameChosen.classList.remove("hiddenObject");
                 }
             }
-            if (fileName != null || fileSize != null) {
-                fileName.innerText = inputName.value + ".txt";
-                fileSize.innerText = inputName.value.length + " bytes";
-            }
         }
+        //mostramos el nombre y lo que ocupa en bytes
+        if (fileName) fileName.innerText = inputName.value + ".txt";
+        if (fileSize) fileSize.innerText = inputName.value.length + " bytes";
     } else {
+        //en el caso de que sea nulo entonces cambiamos el color de input a rojo
         inputName.style.border = '2px solid rgba(255, 0, 0, 255)';
         nameChosen.classList.add("hiddenObject");
-        if (fileName != null || fileSize != null) {
-            fileName.innerText = " ";
-            fileSize.innerText = " ";
-        }
+
+        // Cuando no hay nombre no se mostrará nada detras de la alerta
+        if (fileName) fileName.innerText = " ";
+        if (fileSize) fileSize.innerText = " ";
+
     }
 }
 
-function validateImageInputName(event) {
-    // console.log(event.target.textLength);
+// valida si el nombre del fichero de imagen no esta repetido o es nulo
+function validateImageInputName() {
+    // si el nombre no es nulo se comprueba que no se repita
     if (inputName.value.length > 0) {
         inputName.style.border = '2px solid rgba(255, 0, 0, 0)';
         if (savedImageFilesMemory.length === 0) {
             nameChosen.classList.remove("hiddenObject");
-            //mostramos el nombre y lo que ocupa en bytes
-            if (fileName != null || fileSize != null) {
-                fileName.innerText = inputName.value + ".png";
-                fileSize.innerText = inputName.value.length + " bytes";
-            }
         } else {
             for (let i = 0; i < savedImageFilesMemory.length; i++) {
                 if (inputName.value === savedImageFilesMemory[i].name) {
+                    // mostramos la alerta de nombre repetido
                     textAlert.classList.remove('hiddenObject');
                     nameChosen.classList.add("hiddenObject");
-                    if (fileName != null || fileSize != null) {
-                        fileName.innerText = " ";
-                        fileSize.innerText = " ";
-                    }
                     break;
                 } else {
-                    //mostramos el nombre y lo que ocupa en bytes
+                    // quitamos la alerta de nombre repetido
                     textAlert.classList.add('hiddenObject');
                     nameChosen.classList.remove("hiddenObject");
                 }
             }
-            if (fileName != null || fileSize != null) {
-                fileName.innerText = inputName.value + ".png";
-                fileSize.innerText = inputName.value.length + " bytes";
-            }
         }
+        //mostramos el nombre y lo que ocupa en bytes
+        if (fileName) fileName.innerText = inputName.value + ".png";
+        if (fileSize) fileSize.innerText = inputName.value.length + " bytes";
     } else {
         inputName.style.border = '2px solid rgba(255, 0, 0, 255)';
         nameChosen.classList.add("hiddenObject");
-        if (fileName != null || fileSize != null) {
-            fileName.innerText = " ";
-            fileSize.innerText = " ";
-        }
+
+        // Cuando no hay nombre no se mostrará nada detras de la alerta
+        if (fileName) fileName.innerText = " ";
+        if (fileSize) fileSize.innerText = " ";
+
     }
 }
 
-
+// guarda el fichero de texto nada mas poner el nombre (sin contenido)
+// memoria temporal
 function saveCurrentTextFile() {
     // guardamos el nombre del archivo en el objeto
     savedTextFile.name = inputName.value;
     savedTextFile.date = new Date();
-    console.log(savedTextFile);
     // guardamos el objeto en el array de objetos
-    defineNameAlert.classList.add("hiddenObject");
     sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+    // quitamos la alerta de definir nombre
+    defineNameAlert.classList.add("hiddenObject");
 }
 
+// guarda el fichero de imagen nada mas poner el nombre (sin contenido)
+// memoria temporal
 function saveCurrentImageFile() {
     // guardamos el nombre del archivo en el objeto
     savedImageFile.name = inputName.value;
     savedImageFile.date = new Date();
-    console.log(savedImageFile);
     // guardamos el objeto en el array de objetos
-    defineNameAlert.classList.add("hiddenObject");
     sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+    // quitamos la alerta de definir nombre
+    defineNameAlert.classList.add("hiddenObject");
 }
 
+// guarda el fichero de texto en memoria al pulsar el boton de guardar
 function saveTextFileMemory() {
+    // si no hay fichero de texto guardado en memoria, se crea un objeto vacío
+    if (!savedTextFile.contentNotSaved) savedTextFile.contentNotSaved = "";
     // tenenmos que comprobar que el alrchivo entra en memoria antes de guardar
-    if (!memmoryStatus) memmoryStatus = 0;
-    if (savedTextFile.contentNotSaved == undefined) savedTextFile.contentNotSaved = "";
     if (savedTextFile.contentNotSaved.length + savedTextFile.name.length + parseInt(memmoryStatus) <= 1000) {
+        // guardamos el contenido del fichero en el objeto
         savedTextFile.content = savedTextFile.contentNotSaved;
         savedTextFile.date = new Date();
-        console.log(savedTextFile);
         sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
         //comprobamos que no exista otro texto con el mismo nombre
         let exist = false;
         for (let i = 0; i < savedTextFilesMemory.length; i++) {
+            // si existe un fichero de texto con el mismo nombre calculamos el aumento o disminución de memoria y
+            // sustituimos el contenido del fichero de texto
             if (savedTextFilesMemory[i].name == savedTextFile.name) {
-                exist = true;
-                //calculamos la diferencia en memoria
                 memmoryStatus = savedTextFile.content.length - savedTextFilesMemory[i].content.length + parseInt(memmoryStatus);
                 sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                //si existe lo sustituimos
                 savedTextFilesMemory[i] = savedTextFile;
+                exist = true;
                 break;
             }
         }
+        // si no existe un fichero de texto con el mismo nombre calculamos el aumento de memoria
         if (!exist) {
             savedTextFilesMemory.push(savedTextFile);
             memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
             sessionStorage.setItem('memmoryStatus', memmoryStatus);
-
         }
+        // guardamos el array de objetos de texto en memoria
         sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-
+        // si existe el icono de guardar le cambiamos el color a balanco para indicar que se a guardado
         if (saveFile) saveFile.setAttribute("style", "filter: invert(100%);");
+        // devolvemos true porque se ha podido guardar
         return true;
     } else {
-        console.log('no podemos guardar');
+        // si el fichero no entra en memoria mostramos la alerta
         bigFileAlert.classList.remove('hiddenObject');
+        // si pulsa el boton de cerrar alerta ocultamos la alerta de fichero grande.
         returnToText.addEventListener('click', () => {
             bigFileAlert.classList.add('hiddenObject');
         });
+        // devolvemos false porque no se ha podido guardar
         return false;
     }
 }
 
+// guarda el fichero de imagen en memoria al pulsar el boton de guardar
 function saveImageFileMemory() {
-    // tenenmos que comprobar que el alrchivo entra en memoria antes de guardar
+    // calculamos el tamaño de la imagen del editor
     let sizeImage = 0;
     for (let i = 0; i < 64; i++) {
-        if (savedImageFile.contentNotSaved) {
-            let color = savedImageFile.contentNotSaved[i];
-            if (color != "") sizeImage++;
-        }
+        // si existe contenido no guardado y el cuadrado esta pintado aumentamos el valor de memoria de la imagen
+        if (savedImageFile.contentNotSaved &&
+            savedImageFile.contentNotSaved[i] != "" &&
+            savedImageFile.contentNotSaved.length != 0) sizeImage++;
     }
-    if (!memmoryStatus) memmoryStatus = 0;
-    if (savedImageFile.contentNotSaved == undefined) savedImageFile.contentNotSaved = [];
+    // si no hay fichero de imagen guardado en memoria, se crea un objeto vacío
+    if (!savedImageFile.contentNotSaved) savedImageFile.contentNotSaved = [];
+    // tenenmos que comprobar que el alrchivo entra en memoria antes de guardar
     if (savedImageFile.name.length + sizeImage + parseInt(memmoryStatus) <= 1000) {
-        // extraemos la información de color de cada celda.
+        // guardamos el contenido del fichero en el objeto
         savedImageFile.content = savedImageFile.contentNotSaved;
         savedImageFile.date = new Date();
-        console.log(savedImageFile);
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
         //comprobamos que no exista otro texto con el mismo nombre
         let exist = false;
         for (let i = 0; i < savedImageFilesMemory.length; i++) {
             if (savedImageFilesMemory[i].name == savedImageFile.name) {
-                exist = true;
-                // calculamos la diferencia de memoria
+                // calculamos la memoria que ocupaba antes
                 let contentSize = 0;
-                savedImageFile.content.forEach((color) => {
-                    if (color != "") {
-                        contentSize++;
-                    }
-                });
-                memmoryStatus = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
+                if (savedImageFilesMemory[i].content.length != 0) {
+                    savedImageFilesMemory[i].content.forEach((color) => {
+                        if (color != "") contentSize++;
+                    });
+                }
+                memmoryStatus = sizeImage - contentSize + parseInt(memmoryStatus);
                 sessionStorage.setItem('memmoryStatus', memmoryStatus);
                 //si existe lo sustituimos
                 savedImageFilesMemory[i] = savedImageFile;
+                exist = true;
                 break;
             }
         }
         if (!exist) {
             savedImageFilesMemory.push(savedImageFile);
             // incrementamos el valor de la memoria
-            let contentSize = 0;
-            savedImageFile.content.forEach((color) => {
-                if (color != "") {
-                    contentSize++;
-                }
-            });
-            memmoryStatus = savedImageFile.name.length + contentSize + parseInt(memmoryStatus);
+            memmoryStatus = savedImageFile.name.length + sizeImage + parseInt(memmoryStatus);
             sessionStorage.setItem('memmoryStatus', memmoryStatus);
         }
+        // guardamos el array de objetos de texto en memoria
         sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-        console.log(savedImageFilesMemory);
+        // si existe el icono de guardar le cambiamos el color a balanco para indicar que se a guardado
         if (saveFile) saveFile.setAttribute("style", "filter: invert(100%);");
+        // devolvemos true porque se ha podido guardar
         return true;
     } else {
-        console.log('no podemos guardar');
+        // si el fichero no entra en memoria mostramos la alerta
         bigFileAlert.classList.remove('hiddenObject');
+        // si pulsa el boton de cerrar alerta ocultamos la alerta de fichero grande.
         returnToText.addEventListener('click', () => {
             bigFileAlert.classList.add('hiddenObject');
         });
+        // devolvemos false porque no se ha podido guardar
         return false;
     }
 }
 
+// comprueba si se ha guardado el fichero de texto o no antes de cerrar
 function checkTextFileSaved() {
     //comparamos los dos contenidos de savedTextFile
-    if (savedTextFile.content != savedTextFile.contentNotSaved || savedTextFile.content == undefined) {
+    if (savedTextFile.content != savedTextFile.contentNotSaved || !savedTextFile.content) {
         //si son diferentes mostramos el alert
         noneSaveAlert.classList.remove('hiddenObject');
-        confirmYes.addEventListener('click', keepTextFile);
+        confirmYes.addEventListener('click', () => {
+            if (saveTextFileMemory()) {
+                eraseTextFile();
+            } else noneSaveAlert.classList.add('hiddenObject');
+        });
         confirmNo.addEventListener('click', eraseTextFile);
         return false;
     } else {
         //si son iguales no mostramos el alert
-        let textFile = new fileTextImage('txt');
-        textFile.name = savedTextFile.name;
-        textFile.content = savedTextFile.content;
-        textFile.date = new Date();
-        let exist = false;
-        for (let i = 0; i < savedTextFilesMemory.length; i++) {
-            if (savedTextFilesMemory[i].name == textFile.name) {
-                exist = true;
-                // calculamos la diferencia de memoria 
-                memmoryStatus = textFile.content.length -
-                    savedTextFilesMemory[i].content.length +
-                    parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                //si existe lo sustituimos
-                savedTextFilesMemory[i] = textFile;
-                break;
-            }
-        }
-        if (!exist) {
-            savedTextFilesMemory.push(textFile);
-            memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', memmoryStatus);
-        }
-        sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-        console.log(savedTextFilesMemory);
+        saveTextFileMemory();
         // eliminamos el objeto temporal de session storage
         savedTextFile = {};
         sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
@@ -318,443 +346,278 @@ function checkTextFileSaved() {
     }
 }
 
+// comprueba si se ha guardado el fichero de imagen o no antes de cerrar
 function checkImageFileSaved() {
     //comparamos los dos contenidos de savedTextFile
-    if (checkEqualImages() || !savedImageFile.contentNotSaved) {
+    if (!checkEqualImages() || !savedImageFile.content) {
+        //si son diferentes mostramos el alert
+        noneSaveAlert.classList.remove('hiddenObject');
+        confirmYes.addEventListener('click', () => {
+            if (saveImageFileMemory()) {
+                eraseImageFile();
+            } else noneSaveAlert.classList.add('hiddenObject');
+        });
+        confirmNo.addEventListener('click', eraseImageFile);
+        return false;
+    } else {
         //si son iguales no mostramos el alert
-        let imageFile = new fileTextImage('img');
-        imageFile.name = savedImageFile.name;
-        imageFile.content = savedImageFile.content;
-        imageFile.date = new Date();
-        let exist = false;
-        for (let i = 0; i < savedImageFilesMemory.length; i++) {
-            if (savedImageFilesMemory[i].name == imageFile.name) {
-                exist = true;
-                // calculamos la diferencia de memoria
-                let contentSize = 0;
-                imageFile.content.forEach((color) => {
-                    if (color != "") {
-                        contentSize++;
-                    }
-                });
-                memmoryStatus = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                //si existe lo sustituimos
-                savedImageFilesMemory[i] = imageFile;
-                break;
-            }
-        }
-        if (!exist) {
-            savedImageFilesMemory.push(imageFile);
-            // incrementamos el valor de la memoria
-            let contentSize = 0;
-            imageFile.content.forEach((color) => {
-                if (color != "") {
-                    contentSize++;
-                }
-            });
-            memmoryStatus = imageFile.name.length + contentSize + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', memmoryStatus);
-        }
-        sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-        console.log(savedImageFilesMemory);
-
+        saveImageFileMemory();
         // eliminamos el objeto temporal de session storage
         savedImageFile = {};
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
         return true;
-    } else {
-        //si son iguales no mostramos el alert
-        noneSaveAlert.classList.remove('hiddenObject');
-        confirmYes.addEventListener('click', keepImageFile);
-        confirmNo.addEventListener('click', eraseImageFile);
-        return false;
     }
 }
 
+// compara si las imagenes son iguales
 function checkEqualImages() {
     let equal = true;
-    for (let i = 0; i < savedImageFile.contentNotSaved.length; i++) {
-        if (!savedImageFile.content || savedImageFile.content[i] != savedImageFile.contentNotSaved[i]) {
-            equal = false;
-            break;
+    if (savedImageFile.contentNotSaved) {
+        for (let i = 0; i < savedImageFile.contentNotSaved.length; i++) {
+            if (!savedImageFile.content || savedImageFile.content[i] != savedImageFile.contentNotSaved[i]) {
+                equal = false;
+                break;
+            }
         }
     }
     return equal;
 }
 
-function keepTextFile() {
-    if (saveTextFileMemory()) {
-        let textFile = new fileTextImage('txt');
-        textFile.name = savedTextFile.name;
-        textFile.content = savedTextFile.content;
-        textFile.date = new Date();
-        //comprobamos que no exista otro texto con el mismo nombre
-        let exist = false;
-        for (let i = 0; i < savedTextFilesMemory.length; i++) {
-            if (savedTextFilesMemory[i].name == textFile.name) {
-                exist = true;
-                //calculamos la diferencia en memoria
-                memmoryStatus = textFile.content.length - savedTextFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                //si existe lo sustituimos
-                savedTextFilesMemory[i] = textFile;
-                break;
-            }
-        }
-        if (!exist) {
-            savedTextFilesMemory.push(textFile);
-            memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', memmoryStatus);
-
-        }
-        sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-
-        console.log(savedTextFilesMemory);
-
-        savedTextFile = {};
-        sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
-        previousPage();
-    } else {
-        noneSaveAlert.classList.add('hiddenObject');
-    }
-}
-
-function keepImageFile() {
-    if (saveImageFileMemory()) {
-        let imageFile = new fileTextImage('img');
-        imageFile.name = savedImageFile.name;
-        imageFile.content = savedImageFile.content;
-        imageFile.date = new Date();
-        //comprobamos que no exista otro texto con el mismo nombre
-        let exist = false;
-        for (let i = 0; i < savedImageFilesMemory.length; i++) {
-            if (savedImageFilesMemory[i].name == imageFile.name) {
-                exist = true;
-                // calculamos la diferencia de memoria
-                let contentSize = 0;
-                imageFile.content.forEach((color) => {
-                    if (color != "") {
-                        contentSize++;
-                    }
-                });
-                memmoryStatus = contentSize - savedImageFilesMemory[i].content.length + parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                //si existe lo sustituimos
-                savedImageFilesMemory[i] = imageFile;
-                break;
-            }
-        }
-        if (!exist) {
-            savedImageFilesMemory.push(imageFile);
-            // incrementamos el valor de la memoria
-            let contentSize = 0;
-            imageFile.content.forEach((color) => {
-                if (color != "") {
-                    contentSize++;
-                }
-            });
-            memmoryStatus = imageFile.name.length + contentSize + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', memmoryStatus);
-        }
-        sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-        console.log(savedImageFilesMemory);
-        // eliminamos el objeto temporal de session storage
-        savedImageFile = {};
-        sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
-        previousPage();
-    } else {
-        noneSaveAlert.classList.add('hiddenObject');
-    }
-}
-
+// elimina el fichero de texto temporal de la memoria
 function eraseTextFile() {
     savedTextFile = {};
     sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
     previousPage();
 }
 
+// elimina el fichero de imagen temporal de la memoria
 function eraseImageFile() {
     savedImageFile = {};
     sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
     previousPage();
 }
 
+// borra todos los recuadros de color
 function eraseImage() {
+    // mostramos la alerta de borrar
     deleteFileAlert.classList.remove('hiddenObject');
+    // si pulsa el boton de borrar entonces borramos todos los recuadros
     eraseYes.addEventListener('click', () => {
-        boxes.forEach((box, index) => {
+        boxes.forEach((box) => {
             box.style.backgroundColor = "";
         });
 
+        // guardamos el contenido del fichero en el objeto de imagen temporal
         savedImageFile.contentNotSaved = boxes.map((colorBox) => {
             return colorBox.style.backgroundColor;
         });
-        //cambiamos el tamaño que se muestra junto a la imagen
+        sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
 
+        //cambiamos el tamaño que se muestra junto a la imagen
         fullSize = savedImageFile.name.length;
         fileSize.innerText = fullSize + ' bytes';
-        sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+
+        // eliminamos la alerta de borrar
         deleteFileAlert.classList.add('hiddenObject');
     });
+    // si pulsa el boton de no borrar entonces escondemos la alerta sin borrar nada
     eraseNo.addEventListener('click', () => {
         deleteFileAlert.classList.add('hiddenObject');
     });
 }
 
+// borra el fichero de texto (lo añadimos al array de fichero de texto borrados)
 function daletTextFile(fileToDelate) {
-    console.log(fileToDelate)
-    console.log(fileToDelate.childNodes[2].innerText.slice(0, -4));
+    // mostramos la alerta de borrar
     deleteFileAlert.classList.remove('hiddenObject');
     eraseYes.addEventListener('click', () => {
-        //buscamos el fichero en la lista de objetos guardados
+        // extraemos el nombre del fichero a borrar
+        let nameFileSelected = fileToDelate.childNodes[2].innerText.slice(0, -4);
         for (let i = 0; i < savedTextFilesMemory.length; i++) {
-            if (savedTextFilesMemory[i].name == fileToDelate.childNodes[2].innerText.slice(0, -4)) {
+            if (savedTextFilesMemory[i].name == nameFileSelected) {
+                // extraemos el elemento del array de elementos guardados
                 let delatedFile = savedTextFilesMemory.splice(i, 1);
                 sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-                console.log(delatedFile);
-                //añadimos el elemento eliminado al array de elementos eliminados
+                // añadimos el elemento eliminado al array de elementos eliminados
+                // y lo guardamos en memoria
                 if (!deletedTextFilesMemory) deletedTextFilesMemory = [];
-
                 deletedTextFilesMemory.push(delatedFile[0]);
                 sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
 
-                //No decrementamos el valor de la memoria
-                // memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - delatedFile[0].content.length;
-                // sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                // console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
                 break;
             }
         }
+        // eliminamos la alerta de borrar
         deleteFileAlert.classList.add('hiddenObject');
     });
+    // si pulsa el boton de no borrar entonces escondemos la alerta sin borrar nada
     eraseNo.addEventListener('click', () => {
         deleteFileAlert.classList.add('hiddenObject');
     });
 }
 
+// borra el fichero de imagen (lo añadimos al array de fichero de imagen borrados)
 function daletImageFile(fileToDelate) {
-    console.log(fileToDelate)
-    console.log(fileToDelate.childNodes[2].innerText.slice(0, -4));
+    // mostramos la alerta de borrar
     deleteFileAlert.classList.remove('hiddenObject');
     eraseYes.addEventListener('click', () => {
-        //buscamos el fichero en la lista de objetos guardados
+        // extraemos el nombre del fichero a borrar
+        let nameFileSelected = fileToDelate.childNodes[2].innerText.slice(0, -4);
         for (let i = 0; i < savedImageFilesMemory.length; i++) {
-            if (savedImageFilesMemory[i].name == fileToDelate.childNodes[2].innerText.slice(0, -4)) {
+            if (savedImageFilesMemory[i].name == nameFileSelected) {
+                // extraemos el elemento del array de elementos guardados
                 let delatedFile = savedImageFilesMemory.splice(i, 1);
                 sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-                console.log(delatedFile);
+
                 //añadimos el elemento eliminado al array de elementos eliminados
                 if (!deletedImageFilesMemory) deletedImageFilesMemory = [];
                 deletedImageFilesMemory.push(delatedFile[0]);
                 sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
 
-                //No decrementamos el valor de la memoria
-                // let contentSize = 0;
-                // delatedFile[0].content.forEach((color) => {
-                //     if (color != "") {
-                //         contentSize++;
-                //     }
-                // });
-                // memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - contentSize;
-                // sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                // console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
                 break;
             }
         }
+        // eliminamos la alerta de borrar
         deleteFileAlert.classList.add('hiddenObject');
     });
+    // si pulsa el boton de no borrar entonces escondemos la alerta sin borrar nada
     eraseNo.addEventListener('click', () => {
         deleteFileAlert.classList.add('hiddenObject');
     });
 }
 
+// guarda el fichero que estaba editandose y se abre el editor con uno nuevo
 function saveTextAndMove(file) {
+    // comprobamos que se puede guardar y guardamos
     if (saveTextFileMemory()) {
-        memmoryStatus = 0;
-        let textFile = {};
-        textFile.extension = 'txt';
-        textFile.name = savedTextFile.name;
-        textFile.content = savedTextFile.content;
-        textFile.date = new Date();
-        let exist = false;
-        for (let i = 0; i < savedTextFilesMemory.length; i++) {
-            if (savedTextFilesMemory[i].name == textFile.name) {
-                exist = true;
-                //calculamos la diferencia de memoria
-                memmoryStatus = textFile.content.length -
-                    savedTextFilesMemory[i].content.length +
-                    parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                //si existe lo sustituimos
-                savedTextFilesMemory[i] = textFile;
-                break;
-            }
-        }
-        if (!exist) {
-            savedTextFilesMemory.push(textFile);
-            memmoryStatus = savedTextFile.name.length + savedTextFile.content.length + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', memmoryStatus);
-
-        }
-        sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-        console.log(savedTextFilesMemory);
-        // incrementamos el valor de la memoria
-        console.log(memmoryStatus);
-
-
+        // guardamos en la memoria temporal el fichero que queremos editar
         savedTextFile.name = file.name;
         savedTextFile.content = file.content;
         savedTextFile.contentNotSaved = file.content;
         sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+        // escondemos la alerta de fichero no guardado al intentar abrir el editor
         noneSaveAlert.classList.add('hiddenObject');
-        // nos dirigimos a la pagina de editar ficheros
+        // nos dirigimos a la pagina de editar ficheros de texto
         window.location.href = 'textEditor.html';
     } else {
+        // quitamos la alerta de fihcero no guardado al intentar abrir el editor
+        // para mostrar la alerta de que no se puede guardar el fichero porque es grande
         noneSaveAlert.classList.add('hiddenObject');
     }
 }
 
+// guarda el fichero que estaba editandose y se abre el editor con uno nuevo
 function saveImageAndMove(file) {
+    // comprobamos que se puede guardar y guardamos
     if (saveImageFileMemory()) {
-        memmoryStatus = 0;
-        let imageFile = {};
-        imageFile.extension = 'img';
-        imageFile.name = savedImageFile.name;
-        imageFile.content = savedImageFile.content;
-        imageFile.date = new Date();
-        let exist = false;
-        for (let i = 0; i < savedImageFilesMemory.length; i++) {
-            if (savedImageFilesMemory[i].name == imageFile.name) {
-                exist = true;
-                //calculamos la diferencia de memoria
-                let contentSize = 0;
-                imageFile.content.forEach((color) => {
-                    if (color != "") {
-                        contentSize++;
-                    }
-                });
-                memmoryStatus = contentSize -
-                    savedImageFilesMemory[i].content.length +
-                    parseInt(memmoryStatus);
-                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                //si existe lo sustituimos
-                savedImageFilesMemory[i] = imageFile;
-                break;
-            }
-        }
-        if (!exist) {
-            savedImageFilesMemory.push(imageFile);
-            let contentSize = 0;
-            imageFile.content.forEach((color) => {
-                if (color != "") {
-                    contentSize++;
-                }
-            });
-            memmoryStatus = imageFile.name.length + contentSize + parseInt(memmoryStatus);
-            sessionStorage.setItem('memmoryStatus', memmoryStatus);
-
-        }
-        sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-        console.log(savedImageFilesMemory);
-        // incrementamos el valor de la memoria
-        console.log(memmoryStatus);
-
-
+        // guardamos en la memoria temporal el fichero que queremos editar
         savedImageFile.name = file.name;
         savedImageFile.content = file.content;
         savedImageFile.contentNotSaved = file.content;
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+        // escondemos la alerta de fichero no guardado al intentar abrir el editor
         noneSaveAlert.classList.add('hiddenObject');
         // nos dirigimos a la pagina de editar ficheros
         window.location.href = 'imageEditor.html';
     } else {
+        // quitamos la alerta de fihcero no guardado al intentar abrir el editor
         noneSaveAlert.classList.add('hiddenObject');
     }
 }
 
+// alerta de intentar abrir el editor de texto cuando ya hay un archivo editándose
 function textFileNotSaved(file) {
+    // mostramos la alerta de fichero no guardado al intentar abrir el editor
+    noneSaveAlert.classList.remove('hiddenObject');
+    // boton de confirmar que queremos guardar y editar otro fichero
     confirmYes.addEventListener('click', () => {
-        console.log(file);
         saveTextAndMove(file);
     });
+    // boton de confirmar que no queremos guardar para editar otro fichero
     confirmNo.addEventListener('click', () => {
+        // guardamos en la memoria temporal el fichero que queremos editar
         savedTextFile.name = file.name;
         savedTextFile.content = file.content;
         savedTextFile.contentNotSaved = file.content;
         sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+        // nos dirigimos a la pagina de editar ficheros de texto
         window.location.href = 'textEditor.html';
     });
-    noneSaveAlert.classList.remove('hiddenObject');
 }
 
+// alerta de intentar abrir el editor de imagen cuando ya hay un archivo editándose
 function imageFileNotSaved(file) {
+    // mostramos la alerta de fichero no guardado al intentar abrir el editor
+    noneSaveAlert.classList.remove('hiddenObject');
+    // boton de confirmar que queremos guardar y editar otro fichero
     confirmYes.addEventListener('click', () => {
-        console.log(file);
         saveImageAndMove(file);
     });
+    // boton de confirmar que no queremos guardar para editar otro fichero
     confirmNo.addEventListener('click', () => {
+        // guardamos en la memoria temporal el fichero que queremos editar
         savedImageFile.name = file.name;
         savedImageFile.content = file.content;
         savedImageFile.contentNotSaved = file.content;
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+        // nos dirigimos a la pagina de editar ficheros
         window.location.href = 'imageEditor.html';
     });
-    noneSaveAlert.classList.remove('hiddenObject');
 }
 
+// funcion para borrar un fichero de texto definitivamente
 function finallyDaletTextFile(fileToDelate) {
-    console.log(fileToDelate)
-    console.log(fileToDelate.childNodes[2].innerText.slice(0, -4));
+    // mostramos la alerta de borrar definitivamente el fichero de texto
     lastdeleteFileAlert.classList.remove('hiddenObject');
+    // si pulsa el boton de borrar entonces eliminamos el fichero
     eraseYes.addEventListener('click', () => {
-        //buscamos el fichero en la lista de objetos guardados
+        // extraemos el nombre del fichero a borrar
+        let nameFileSelected = fileToDelate.childNodes[2].innerText.slice(0, -4);
         for (let i = 0; i < deletedTextFilesMemory.length; i++) {
-            if (deletedTextFilesMemory[i].name == fileToDelate.childNodes[2].innerText.slice(0, -4)) {
+            if (deletedTextFilesMemory[i].name == nameFileSelected) {
+                // extraemos el elemento del array de elementos eliminados
                 let delatedFile = deletedTextFilesMemory.splice(i, 1);
                 sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
-                console.log(delatedFile);
-                //añadimos el elemento eliminado al array de elementos eliminados
-                if (!deletedTextFilesMemory) deletedTextFilesMemory = [];
-
                 // decrementamos el valor de la memoria
                 memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - delatedFile[0].content.length;
                 sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
                 break;
             }
         }
+        // escondemos la alerta de borrar definitivamente el fichero de texto
         lastdeleteFileAlert.classList.add('hiddenObject');
+        // recargamos la pagina para que se actualice la memoria
         location.reload();
     });
+    // si pulsa el boton de cancelar entonces no eliminamos el fichero
     eraseNo.addEventListener('click', () => {
+        // escondemos la alerta de borrar definitivamente el fichero de texto
         lastdeleteFileAlert.classList.add('hiddenObject');
     });
 }
 
+// function para borrar el fichero de imagen definitivamente
 function finallyDaletImageFile(fileToDelate) {
-    console.log(fileToDelate)
-    console.log(fileToDelate.childNodes[2].innerText.slice(0, -4));
+    // mostramos la alerta de borrar definitivamente el fichero de imagen
     lastdeleteFileAlert.classList.remove('hiddenObject');
+    // si pulsa el boton de borrar entonces eliminamos el fichero
     eraseYes.addEventListener('click', () => {
-        //buscamos el fichero en la lista de objetos guardados
+        // extraemos el nombre del fichero a borrar
+        let nameFileSelected = fileToDelate.childNodes[2].innerText.slice(0, -4);
         for (let i = 0; i < deletedImageFilesMemory.length; i++) {
-            if (deletedImageFilesMemory[i].name == fileToDelate.childNodes[2].innerText.slice(0, -4)) {
+            if (deletedImageFilesMemory[i].name == nameFileSelected) {
+                // extraemos el elemento del array de elementos eliminados
                 let delatedFile = deletedImageFilesMemory.splice(i, 1);
                 sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
-                console.log(delatedFile);
-                //añadimos el elemento eliminado al array de elementos eliminados
-                if (!deletedImageFilesMemory) deletedImageFilesMemory = [];
-
                 // decrementamos el valor de la memoria
                 let contentSize = 0;
                 delatedFile[0].content.forEach((color) => {
@@ -764,207 +627,197 @@ function finallyDaletImageFile(fileToDelate) {
                 });
                 memmoryStatus = parseInt(memmoryStatus) - delatedFile[0].name.length - contentSize;
                 sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                console.log(memmoryStatus);
                 // eliminamos el elemento del DOM
                 fileToDelate.nextSibling.remove();
                 fileToDelate.remove();
                 break;
             }
         }
+        // escondemos la alerta de borrar definitivamente el fichero de imagen
         lastdeleteFileAlert.classList.add('hiddenObject');
+        // recargamos la pagina para que se actualice la memoria
         location.reload();
     });
+    // si pulsa el boton de cancelar entonces no eliminamos el fichero
     eraseNo.addEventListener('click', () => {
+        // escondemos la alerta de borrar definitivamente el fichero de imagen
         lastdeleteFileAlert.classList.add('hiddenObject');
     });
 }
 
+// funcion para restaurar un fichero de texto
 function restoreTextFile(fileToRestore) {
-    console.log(fileToRestore);
-    console.log(fileToRestore.childNodes[2].innerText.slice(0, -4));
     // comprobamos que el nombre del texto no coincida con los guardados en memoria
     let exist = false;
+    // extraemos el nombre del fichero
+    let nameFileSelected = fileToRestore.childNodes[2].innerText.slice(0, -4);
     for (let i = 0; i < savedTextFilesMemory.length; i++) {
-        if (savedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+        if (savedTextFilesMemory[i].name == nameFileSelected) {
             exist = true;
-            // mostramos la alerta de fichero con el mismo nombr
+            // si coincide mostramos alerta de reemplazar o cambiar nombre
             sameNameAlert.classList.remove('hiddenObject');
+            // si pulsa el boton de no reemplazar entonces mostramos la alerta de cambiar nombre
             replaceNo.addEventListener('click', () => {
                 sameNameAlert.classList.add('hiddenObject');
                 defineNewNameAlert.classList.remove('hiddenObject');
+                // damos lógica al imput
                 inputName.addEventListener('input', validateTextInputName);
+                // si pulsa el boton de cambiar nombre entonces cambiamos el nombre del fichero
                 nameChosen.addEventListener('click', () => {
+                    // extraemos el nuevo nombre del fichero
                     let newName = inputName.value;
-                    console.log(newName);
-                    //buscamos el fichero en la lista de objetos eliminados
-                    for (let i = 0; i < deletedTextFilesMemory.length; i++) {
-                        if (deletedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
-                            let restoredFile = deletedTextFilesMemory.splice(i, 1);
-                            sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
-                            console.log(restoredFile);
-                            //añadimos el elemento eliminado al array de elementos creados
-                            if (!savedTextFilesMemory) savedTextFilesMemory = [];
-                            restoredFile[0].name = newName;
-                            savedTextFilesMemory.push(restoredFile[0]);
-                            sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-                            console.log(savedTextFilesMemory);
-                            // eliminamos el elemento del DOM
-                            fileToRestore.nextSibling.remove();
-                            fileToRestore.remove();
-                            break;
-                        }
-                    }
+                    // extraemos el fichero de la lista de ficheros de texto eliminados
+                    let restoredFile = deletedTextFilesMemory.splice(i, 1);
+                    sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
+
+                    //añadimos el elemento eliminado al array de elementos creados
+                    if (!savedTextFilesMemory) savedTextFilesMemory = [];
+
+                    // le cambiamos el nombre al fichero restaurado y lo guardamos en la memoria 
+                    restoredFile[0].name = newName;
+                    savedTextFilesMemory.push(restoredFile[0]);
+                    sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+
+                    // eliminamos el elemento del DOM
+                    fileToRestore.nextSibling.remove();
+                    fileToRestore.remove();
+                    // escondemos la alerta de cambiar nombre
                     defineNewNameAlert.classList.add('hiddenObject');
-                    location.reload();
                 });
             });
+            // si pulsa el boton de reemplazar entonces reemplazamos el fichero
             replaceYes.addEventListener('click', () => {
-                //buscamos el fichero en la lista de objetos eliminados
-                for (let i = 0; i < deletedTextFilesMemory.length; i++) {
-                    if (deletedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
-                        let restoredFile = deletedTextFilesMemory.splice(i, 1);
-                        sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
-                        console.log(restoredFile);
-                        //reemplazamos el elemento eliminado al array de elementos creados  
-                        if (!savedTextFilesMemory) savedTextFilesMemory = [];
-                        // buscamos el fichero a reemplazar
-                        for (let i = 0; i < savedTextFilesMemory.length; i++) {
-                            if (savedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
-                                // eliminamos el tamaño de la memoria
-                                let replacedFile = savedTextFilesMemory.splice(i, 1);
-                                memmoryStatus = parseInt(memmoryStatus) -
-                                    replacedFile[i].content.length -
-                                    replacedFile[i].name.length;
-                                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                                break;
-                            }
-                        }
-                        savedTextFilesMemory.push(restoredFile[0]);
-                        sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-                        console.log(savedTextFilesMemory);
-                        // eliminamos el elemento del DOM
-                        fileToRestore.nextSibling.remove();
-                        fileToRestore.remove();
+                // extraemos el fichero que vamos a restaurar
+                let restoredFile = deletedTextFilesMemory.splice(i, 1);
+                sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
 
-                        sameNameAlert.classList.add('hiddenObject');
-                        location.reload();
+                if (!savedTextFilesMemory) savedTextFilesMemory = [];
+                // buscamos el fichero a reemplazar
+                for (let i = 0; i < savedTextFilesMemory.length; i++) {
+                    if (savedTextFilesMemory[i].name == nameFileSelected) {
+                        // reducimos la memoria
+                        let replacedFile = savedTextFilesMemory.splice(i, 1);
+                        memmoryStatus = parseInt(memmoryStatus) -
+                            replacedFile[i].content.length -
+                            replacedFile[i].name.length;
+                        sessionStorage.setItem('memmoryStatus', memmoryStatus);
                         break;
                     }
-
                 }
+                // añadimos el elemento eliminado al array de elementos creados
+                savedTextFilesMemory.push(restoredFile[0]);
+                sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
+                // eliminamos el elemento del DOM
+                fileToRestore.nextSibling.remove();
+                fileToRestore.remove();
+                // escondemos la alerta de reemplazar
+                sameNameAlert.classList.add('hiddenObject');
+                // recargamos la pagina para que se actualice la memoria
+                location.reload();
             });
         }
     }
     if (!exist) {
         // mostramos la alerta de restaurar fichero
         restoreAlert.classList.remove('hiddenObject');
-        // añadimos el evento de restaurar fichero
+        // si pulsa restaurar se resaturará el fichero
         confirmYes.addEventListener('click', () => {
             //buscamos el fichero en la lista de objetos eliminados
             for (let i = 0; i < deletedTextFilesMemory.length; i++) {
-                if (deletedTextFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                if (deletedTextFilesMemory[i].name == nameFileSelected) {
+                    // extraemos el fichero de la lista de ficheros de texto eliminados
                     let restoredFile = deletedTextFilesMemory.splice(i, 1);
                     sessionStorage.setItem("deletedTextFilesMemory", JSON.stringify(deletedTextFilesMemory));
-                    console.log(restoredFile);
                     //añadimos el elemento eliminado al array de elementos creados
                     if (!savedTextFilesMemory) savedTextFilesMemory = [];
                     savedTextFilesMemory.push(restoredFile[0]);
                     sessionStorage.setItem("savedTextFilesMemory", JSON.stringify(savedTextFilesMemory));
-                    console.log(savedTextFilesMemory);
                     // eliminamos el elemento del DOM
                     fileToRestore.nextSibling.remove();
                     fileToRestore.remove();
                     break;
                 }
             }
+            // escondemos la alerta de restaurar fichero
             restoreAlert.classList.add('hiddenObject');
-            location.reload();
         });
+        // si pulsa cancelar no se restaurará el fichero
         confirmNo.addEventListener('click', () => {
+            // escondemos la alerta de restaurar fichero
             restoreAlert.classList.add('hiddenObject');
         });
     }
 }
 
+// funcion para restaurar un fichero de imagen
 function restoreImageFile(fileToRestore) {
-    console.log(fileToRestore);
-    console.log(fileToRestore.childNodes[2].innerText.slice(0, -4));
     // comprobamos que el nombre del texto no coincida con los guardados en memoria
     let exist = false;
+    // extraemos el nombre del fichero
+    let nameFileSelected = fileToRestore.childNodes[2].innerText.slice(0, -4);
     for (let i = 0; i < savedImageFilesMemory.length; i++) {
-        if (savedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+        if (savedImageFilesMemory[i].name == nameFileSelected) {
             exist = true;
             // mostramos la alerta de fichero con el mismo nombr
             sameNameAlert.classList.remove('hiddenObject');
+            // si pulsa el boton de no reemplazar entonces mostramos la alerta de cambiar nombre
             replaceNo.addEventListener('click', () => {
                 sameNameAlert.classList.add('hiddenObject');
                 defineNewNameAlert.classList.remove('hiddenObject');
+                // damos lógica al imput
                 inputName.addEventListener('input', validateImageInputName);
+                // si pulsa el boton de cambiar nombre entonces cambiamos el nombre del fichero
+                // y lo guardamos en el memoria
                 nameChosen.addEventListener('click', () => {
+                    // extraemos el nuevo nombre del fichero
                     let newName = inputName.value;
-                    console.log(newName);
-                    //buscamos el fichero en la lista de objetos eliminados
-                    for (let i = 0; i < deletedImageFilesMemory.length; i++) {
-                        if (deletedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
-                            let restoredFile = deletedImageFilesMemory.splice(i, 1);
-                            sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
-                            console.log(restoredFile);
-                            //añadimos el elemento eliminado al array de elementos creados
-                            if (!savedImageFilesMemory) savedImageFilesMemory = [];
-                            restoredFile[0].name = newName;
-                            savedImageFilesMemory.push(restoredFile[0]);
-                            sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-                            console.log(savedImageFilesMemory);
-                            // eliminamos el elemento del DOM
-                            fileToRestore.nextSibling.remove();
-                            fileToRestore.remove();
-                            break;
-                        }
-                    }
+                    // extraemos el fichero de la lista de ficheros de imagen eliminados
+                    let restoredFile = deletedImageFilesMemory.splice(i, 1);
+                    sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
+                    //añadimos el elemento eliminado al array de elementos creados
+                    if (!savedImageFilesMemory) savedImageFilesMemory = [];
+                    restoredFile[0].name = newName;
+                    savedImageFilesMemory.push(restoredFile[0]);
+                    sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
+                    // eliminamos el elemento del DOM
+                    fileToRestore.nextSibling.remove();
+                    fileToRestore.remove();
+                    // escondemos la alerta de cambiar nombre
                     defineNewNameAlert.classList.add('hiddenObject');
-                    location.reload();
                 });
             });
+            // si pulsa el boton de reemplazar entonces reemplazamos el fichero
             replaceYes.addEventListener('click', () => {
-                //buscamos el fichero en la lista de objetos eliminados
-                for (let i = 0; i < deletedImageFilesMemory.length; i++) {
-                    if (deletedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
-                        let restoredFile = deletedImageFilesMemory.splice(i, 1);
-                        sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
-                        console.log(restoredFile);
-                        //reemplazamos el elemento eliminado al array de elementos creados  
-                        if (!savedImageFilesMemory) savedImageFilesMemory = [];
-                        // buscamos el fichero a reemplazar
-                        for (let i = 0; i < savedImageFilesMemory.length; i++) {
-                            if (savedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
-                                let replacedFile = savedImageFilesMemory.splice(i, 1);
-                                // restamos el tamaño del fichero a la memoria
-                                let contentSize = 0;
-                                replacedFile[0].content.forEach((color) => {
-                                    if (color != "") {
-                                        contentSize++;
-                                    }
-                                });
-                                memmoryStatus = parseInt(memmoryStatus) -
-                                    replacedFile[0].name.length -
-                                    contentSize;
-                                sessionStorage.setItem('memmoryStatus', memmoryStatus);
-                                break;
-                            }
-                        }
-                        savedImageFilesMemory.push(restoredFile[0]);
-                        sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-                        console.log(savedImageFilesMemory);
-                        // eliminamos el elemento del DOM
-                        fileToRestore.nextSibling.remove();
-                        fileToRestore.remove();
-
-                        sameNameAlert.classList.add('hiddenObject');
-                        location.reload();
+                let restoredFile = deletedImageFilesMemory.splice(i, 1);
+                sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
+                //reemplazamos el elemento eliminado al array de elementos creados  
+                if (!savedImageFilesMemory) savedImageFilesMemory = [];
+                // buscamos el fichero a reemplazar
+                for (let i = 0; i < savedImageFilesMemory.length; i++) {
+                    if (savedImageFilesMemory[i].name == nameFileSelected) {
+                        let replacedFile = savedImageFilesMemory.splice(i, 1);
+                        // restamos el tamaño del fichero a la memoria
+                        let contentSize = 0;
+                        replacedFile[0].content.forEach((color) => {
+                            if (color != "") contentSize++;
+                        });
+                        memmoryStatus = parseInt(memmoryStatus) -
+                            replacedFile[0].name.length -
+                            contentSize;
+                        sessionStorage.setItem('memmoryStatus', memmoryStatus);
                         break;
                     }
-
                 }
+                // añadimos el elemento eliminado al array de elementos creados
+                savedImageFilesMemory.push(restoredFile[0]);
+                sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
+                // eliminamos el elemento del DOM
+                fileToRestore.nextSibling.remove();
+                fileToRestore.remove();
+                // escondemos la alerta de reemplazar
+                sameNameAlert.classList.add('hiddenObject');
+                // recargamos la pagina para que se actualice la memoria
+                location.reload();
             });
         }
     }
@@ -973,28 +826,28 @@ function restoreImageFile(fileToRestore) {
         restoreAlert.classList.remove('hiddenObject');
         // añadimos el evento de restaurar fichero
         confirmYes.addEventListener('click', () => {
-
             //buscamos el fichero en la lista de objetos eliminados
             for (let i = 0; i < deletedImageFilesMemory.length; i++) {
-                if (deletedImageFilesMemory[i].name == fileToRestore.childNodes[2].innerText.slice(0, -4)) {
+                if (deletedImageFilesMemory[i].name == nameFileSelected) {
+                    // extraemos el fichero de la lista de ficheros de imagen eliminados
                     let restoredFile = deletedImageFilesMemory.splice(i, 1);
                     sessionStorage.setItem("deletedImageFilesMemory", JSON.stringify(deletedImageFilesMemory));
-                    console.log(restoredFile);
                     //añadimos el elemento eliminado al array de elementos creados
                     if (!savedImageFilesMemory) savedImageFilesMemory = [];
                     savedImageFilesMemory.push(restoredFile[0]);
                     sessionStorage.setItem("savedImageFilesMemory", JSON.stringify(savedImageFilesMemory));
-                    console.log(savedImageFilesMemory);
                     // eliminamos el elemento del DOM
                     fileToRestore.nextSibling.remove();
                     fileToRestore.remove();
                     break;
                 }
             }
+            // escondemos la alerta de restaurar fichero
             restoreAlert.classList.add('hiddenObject');
-            location.reload();
         });
+        // si pulsa cancelar no se restaurará el fichero
         confirmNo.addEventListener('click', () => {
+            // escondemos la alerta de restaurar fichero
             restoreAlert.classList.add('hiddenObject');
         });
     }
