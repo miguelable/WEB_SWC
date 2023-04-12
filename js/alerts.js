@@ -219,8 +219,23 @@ function saveCurrentImageFile() {
 function saveTextFileMemory() {
     // si no hay fichero de texto guardado en memoria, se crea un objeto vacío
     if (!savedTextFile.contentNotSaved) savedTextFile.contentNotSaved = "";
+    // comprobar si el fichero ya existía para calcular la diferencia en memoria al guardar
+    let memmoryDifference = 0;
+    for (let i = 0; i < savedTextFilesMemory.length; i++) {
+        if (savedTextFilesMemory[i].name == savedTextFile.name) {
+            // calculamos la diferencia en memoria del fichero anterior al nuevo
+            memmoryDifference = savedTextFile.contentNotSaved.length -
+                savedTextFilesMemory[i].content.length +
+                savedTextFile.name.length -
+                savedTextFilesMemory[i].name.length;
+            break;
+        } else {
+            memmoryDifference = savedTextFile.contentNotSaved.length +
+                savedTextFile.name.length;
+        }
+    }
     // tenenmos que comprobar que el alrchivo entra en memoria antes de guardar
-    if (savedTextFile.contentNotSaved.length + savedTextFile.name.length + parseInt(memmoryStatus) <= 1000) {
+    if (memmoryDifference + parseInt(memmoryStatus) <= 1000) {
         // guardamos el contenido del fichero en el objeto
         savedTextFile.content = savedTextFile.contentNotSaved;
         savedTextFile.date = new Date();
@@ -274,8 +289,27 @@ function saveImageFileMemory() {
     }
     // si no hay fichero de imagen guardado en memoria, se crea un objeto vacío
     if (!savedImageFile.contentNotSaved) savedImageFile.contentNotSaved = [];
+    // comprobar si el fichero ya existía para calcular la diferencia en memoria al guardar
+    let memmoryDifference = 0;
+    for (let i = 0; i < savedImageFilesMemory.length; i++) {
+        if (savedImageFilesMemory[i].name == savedImageFile.name) {
+            // calculamos la diferencia en memoria del fichero anterior al nuevo
+            let contentSize = 0;
+            if (savedImageFilesMemory[i].content.length != 0) {
+                savedImageFilesMemory[i].content.forEach((color) => {
+                    if (color != "") contentSize++;
+                });
+            }
+            memmoryDifference = sizeImage - contentSize +
+                savedImageFile.name.length -
+                savedImageFilesMemory[i].name.length;
+            break;
+        } else {
+            memmoryDifference = sizeImage + savedImageFile.name.length;
+        }
+    }
     // tenenmos que comprobar que el alrchivo entra en memoria antes de guardar
-    if (savedImageFile.name.length + sizeImage + parseInt(memmoryStatus) <= 1000) {
+    if (memmoryDifference + parseInt(memmoryStatus) <= 1000) {
         // guardamos el contenido del fichero en el objeto
         savedImageFile.content = savedImageFile.contentNotSaved;
         savedImageFile.date = new Date();
@@ -328,13 +362,14 @@ function checkTextFileSaved() {
     //comparamos los dos contenidos de savedTextFile
     if (savedTextFile.content != savedTextFile.contentNotSaved || !savedTextFile.content) {
         //si son diferentes mostramos el alert
-        noneSaveAlert.classList.remove('hiddenObject');
+
         confirmYes.addEventListener('click', () => {
             if (saveTextFileMemory()) {
                 eraseTextFile();
             } else noneSaveAlert.classList.add('hiddenObject');
         });
         confirmNo.addEventListener('click', eraseTextFile);
+        noneSaveAlert.classList.remove('hiddenObject');
         return false;
     } else {
         //si son iguales no mostramos el alert
@@ -351,13 +386,14 @@ function checkImageFileSaved() {
     //comparamos los dos contenidos de savedTextFile
     if (!checkEqualImages() || !savedImageFile.content) {
         //si son diferentes mostramos el alert
-        noneSaveAlert.classList.remove('hiddenObject');
+
         confirmYes.addEventListener('click', () => {
             if (saveImageFileMemory()) {
                 eraseImageFile();
             } else noneSaveAlert.classList.add('hiddenObject');
         });
         confirmNo.addEventListener('click', eraseImageFile);
+        noneSaveAlert.classList.remove('hiddenObject');
         return false;
     } else {
         //si son iguales no mostramos el alert

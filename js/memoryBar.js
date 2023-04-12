@@ -14,7 +14,7 @@ function updateMemoryBar(memmoryStatus) {
     let percentage = (memmoryStatus - min) / (max - min);
 
     // Definir el color de la barra
-    ctx.fillStyle = "#474747";
+    ctx.fillStyle = "#969696";
 
     // Dibujar la barra
     ctx.fillRect(0, 0, canvas.width * percentage, canvas.height);
