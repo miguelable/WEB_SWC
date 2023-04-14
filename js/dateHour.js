@@ -6,6 +6,10 @@ function updateDateTime() {
     //let actualTime = now.toLocaleTimeString(); //hora con segundos
     let hours = now.getHours();
     let minutes = now.getMinutes();
+    // si los minutos son menos que 10 entonces le añadirmos un 0 delante del numero
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    }
     let actualTime = hours + ':' + minutes;
     let actualDate = now.toLocaleDateString();
 
