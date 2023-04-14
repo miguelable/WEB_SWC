@@ -7,6 +7,8 @@ if (savedTextFile.name != "") {
         fileName.innerText = savedTextFile.name + ".txt";
         fullSize += savedTextFile.name.length;
         textArea.value = " ";
+    } else {
+        textArea.value = " ";
     }
     if (savedTextFile.contentNotSaved) {
         fullSize += savedTextFile.contentNotSaved.length;
@@ -15,6 +17,7 @@ if (savedTextFile.name != "") {
     if (fullSize) {
         fileSize.innerText = fullSize + ' bytes';
     }
+    console.log("si hay nombre")
 }
 
 textArea.addEventListener('input', countChars);
@@ -40,3 +43,5 @@ function leaveApp() {
     }
 
 }
+
+newFile.addEventListener('click', newTextFile);

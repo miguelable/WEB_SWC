@@ -23,6 +23,9 @@
         </button>
     </div>
     <div id="menuHeaderEdit">
+        <div id="newFile" class="optionsBox">
+            <img id="newImage" class="fitImage" src="../img/new.png" alt="new.png">
+        </div>
         <div id="saveFile" class="optionsBox">
             <img id="saveImage" class="fitImage" src="../img/Save.png" alt="Save.png">
         </div>
@@ -95,6 +98,20 @@
             <div class="alertStyle centerAlert">
                 <button id="confirmNo" class="confirmButtonAlert hoverRed">
                     <p class="nameAlert badColor">Don´t Save File</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Alerta de nuevo fichero -->
+    <div id="newFileAlert" class="alert hiddenObject">
+        <div class="alertBox">
+            <p class="nameAlert alertStyle">New File ?</p>
+            <div class="alertStyle">
+                <button id="newYes" class="confirmButtonAlert hoverGreen">
+                    <p class="nameAlert goodColor">Yes</p>
+                </button>
+                <button id="newNo" class="confirmButtonAlert hoverRed">
+                    <p class="nameAlert badColor">No</p>
                 </button>
             </div>
         </div>

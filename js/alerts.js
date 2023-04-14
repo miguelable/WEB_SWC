@@ -33,6 +33,15 @@ const nameChosen = document.querySelector('#nameChosen');
 // texto que aparece en rojo cuando el nombre se repite
 const textAlert = document.querySelector('.textAlert');
 
+// alerta para crear un nuevo fichero
+const newFileAlert = document.getElementById('newFileAlert');
+// boton de guardar documento.
+const newFile = document.getElementById('newFile');
+// boton de confirmar guardar
+const newYes = document.getElementById('newYes');
+// boton de cancelar guardar
+const newNo = document.getElementById('newNo');
+
 // alerta cuando se quiere guardar un fichero que ocupa más de lo que está disponible
 const bigFileAlert = document.getElementById('bigFileAlert');
 // boton para volver al fichero despúes de mostrar la alerta de fichero grande
@@ -201,6 +210,8 @@ function saveCurrentTextFile() {
     sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
     // quitamos la alerta de definir nombre
     defineNameAlert.classList.add("hiddenObject");
+    // eliminamos el contenido del inputName
+    inputName.value = "";
 }
 
 // guarda el fichero de imagen nada mas poner el nombre (sin contenido)
@@ -213,6 +224,8 @@ function saveCurrentImageFile() {
     sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
     // quitamos la alerta de definir nombre
     defineNameAlert.classList.add("hiddenObject");
+    // eliminamos el contenido del inputName
+    inputName.value = "";
 }
 
 // guarda el fichero de texto en memoria al pulsar el boton de guardar
@@ -386,7 +399,6 @@ function checkImageFileSaved() {
     //comparamos los dos contenidos de savedTextFile
     if (!checkEqualImages() || !savedImageFile.content) {
         //si son diferentes mostramos el alert
-
         confirmYes.addEventListener('click', () => {
             if (saveImageFileMemory()) {
                 eraseImageFile();
@@ -403,6 +415,92 @@ function checkImageFileSaved() {
         sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
         return true;
     }
+}
+
+// guardamos y creamos un nuevo fichero de texto
+function newTextFile() {
+    //mostramos la alerta de nuevo fichero
+    newFileAlert.classList.remove('hiddenObject');
+    // si pulsa el boton de cerrar alerta ocultamos la alerta de nuevo fichero.
+    newNo.addEventListener('click', () => {
+        newFileAlert.classList.add('hiddenObject');
+    });
+    // si pulsa el boton de crear fichero nuevo creamos el fichero
+    newYes.addEventListener('click', () => {
+        //comprobamos si el usuario ha guardado el archivo
+        newFileAlert.classList.add('hiddenObject');
+        // comprobamos si se a guardado y implementamos logica
+        if (savedTextFile.content != savedTextFile.contentNotSaved || !savedTextFile.content) {
+            //si son diferentes mostramos el alert
+            confirmYes.addEventListener('click', () => {
+                if (saveTextFileMemory()) {
+                    // eliminamos el objeto temporal de session storage y recargamos
+                    savedTextFile = {};
+                    sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+                    noneSaveAlert.classList.add('hiddenObject');
+                    location.reload();
+                } else noneSaveAlert.classList.add('hiddenObject');
+            });
+            confirmNo.addEventListener('click', () => {
+                // eliminamos el objeto temporal de session storage y recargamos
+                savedTextFile = {};
+                sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+                noneSaveAlert.classList.add('hiddenObject');
+                location.reload();
+            });
+            noneSaveAlert.classList.remove('hiddenObject');
+        } else {
+            //si son iguales no mostramos el alert
+            saveTextFileMemory();
+            // eliminamos el objeto temporal de session storage
+            savedTextFile = {};
+            sessionStorage.setItem("savedTextFile", JSON.stringify(savedTextFile));
+            location.reload();
+        }
+    });
+}
+
+// guardamos y creamos un nuevo fichero de imagen
+function newImageFile() {
+    //mostramos la alerta de nuevo fichero
+    newFileAlert.classList.remove('hiddenObject');
+    // si pulsa el boton de cerrar alerta ocultamos la alerta de nuevo fichero.
+    newNo.addEventListener('click', () => {
+        newFileAlert.classList.add('hiddenObject');
+    });
+    // si pulsa el boton de crear fichero nuevo creamos el fichero
+    newYes.addEventListener('click', () => {
+        //comprobamos si el usuario ha guardado el archivo
+        newFileAlert.classList.add('hiddenObject');
+        // comprobamos si se a guardado y implementamos logica
+        if (!checkEqualImages() || !savedImageFile.content) {
+            //si son diferentes mostramos el alert
+            confirmYes.addEventListener('click', () => {
+                if (saveImageFileMemory()) {
+                    // eliminamos el fichero y recargamos
+                    savedImageFile = {};
+                    sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+                    noneSaveAlert.classList.add('hiddenObject');
+                    location.reload();
+                } else noneSaveAlert.classList.add('hiddenObject');
+            });
+            confirmNo.addEventListener('click', () => {
+                // eliminamos el fichero y recargamos
+                savedImageFile = {};
+                sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+                noneSaveAlert.classList.add('hiddenObject');
+                location.reload();
+            });
+            noneSaveAlert.classList.remove('hiddenObject');
+        } else {
+            //si son iguales no mostramos el alert
+            saveImageFileMemory();
+            // eliminamos el objeto temporal de session storage
+            savedImageFile = {};
+            sessionStorage.setItem("savedImageFile", JSON.stringify(savedImageFile));
+            location.reload();
+        }
+    });
 }
 
 // compara si las imagenes son iguales

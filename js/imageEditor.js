@@ -18,7 +18,7 @@ let isBucket = false;
 
 // mostramos el nombre y tamaño del fichero si se estaba editando ya uno.
 let fullSize = 0;
-if (savedImageFile.name != "") {
+if (savedImageFile.name) {
     //sumamos el nombre a al texto introducido.
     if (savedImageFile.name) {
         fileName.innerText = savedImageFile.name + ".img";
@@ -123,3 +123,6 @@ function leaveApp() {
     }
 
 }
+
+// crear nuevo fichero de imagen
+newFile.addEventListener('click', newImageFile);
