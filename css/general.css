@@ -9,7 +9,7 @@
     /* Areas de la página */
     display: grid;
     grid-template-columns: 2fr 1.5fr 2fr;
-    grid-template-rows: 5% 4% auto max-content;
+    grid-template-rows: 5% 4.5% auto max-content;
     /* Imagen de fondo*/
     background-image: url("../img/fondo.jpg");
     background-size: cover;
@@ -38,8 +38,8 @@
 
 .appButton {
     /* Tamaño de los botones */
-    width: 4vh;
-    height: 4vh;
+    width: 5vh;
+    height: 5vh;
     /* Borde */
     border: none;
     border-radius: 15%;

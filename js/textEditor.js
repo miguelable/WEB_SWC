@@ -17,7 +17,6 @@ if (savedTextFile.name != "") {
     if (fullSize) {
         fileSize.innerText = fullSize + ' bytes';
     }
-    console.log("si hay nombre")
 }
 
 textArea.addEventListener('input', countChars);

@@ -25,7 +25,7 @@ dos aplicaciones de edición de ficheros */
 /* Estilos para el contenedor de la barra de herramientas y botones de opciones*/
 
 .optionsBox {
-    height: 90%;
+    height: 80%;
     aspect-ratio: 1/1;
     mix-blend-mode: overlay;
 }
