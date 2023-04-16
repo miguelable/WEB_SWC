@@ -95,6 +95,9 @@ Dar más opacidad al elemento seleccionado */
 .fileItem:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.2);
+    /* transformación de ampliar tamaño */
+    transition: 0.3s;
+    transform: scale(1.05);
 }
 
 .textContentDiv,

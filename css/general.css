@@ -56,6 +56,9 @@
 .appButton:hover {
     cursor: pointer;
     filter: invert();
+    /* Transicion de escalar el boton al poner el raton encima */
+    transition: 0.3s;
+    transform: scale(1.2);
 }
 
 
