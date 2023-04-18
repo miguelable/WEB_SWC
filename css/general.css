@@ -45,6 +45,7 @@
     border-radius: 15%;
     /* Margen */
     margin: 15px 7.5px;
+    padding: 4px;
     /* Formato */
     mix-blend-mode: overlay;
     background-color: #ffffff99;
