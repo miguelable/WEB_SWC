@@ -34,6 +34,9 @@ dos aplicaciones de edición de ficheros */
     cursor: pointer;
     background: transparent;
     filter: invert();
+    /* transicion de agrandar */
+    transition: 0.5s;
+    transform:scale(1.15)
 }
 
 

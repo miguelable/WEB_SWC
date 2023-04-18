@@ -32,6 +32,9 @@
     cursor: pointer;
     background: #ffffff2d;
     filter: invert();
+    /* transicion de rotación de 90 grados */
+    transition: 0.5s;
+    transform:rotate(90deg)
 }
 
 .closeButton {

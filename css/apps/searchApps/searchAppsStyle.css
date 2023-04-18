@@ -129,6 +129,11 @@ Dar más opacidad al elemento seleccionado */
     filter: invert();
 }
 
+.closeIcon:hover {
+    transition: 0.5s;
+    transform: rotate(90deg);
+}
+
 .textTitle {
     margin: 0px;
     font-size: 15px;
